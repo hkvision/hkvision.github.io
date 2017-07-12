@@ -103,7 +103,7 @@ p{font-size:1em;line-height: 1.7em; margin-bottom: 1.7em;}
 /*contact*/
 
 
-.footer{background-color: #111; color: #fff; font-size: 1em;color: #aaa;}
+.footer{background-color: lightyellow; color: #fff; font-size: 1em;color: #aaa;}
 .footer a{color: #aaa;margin: 0 1em; }
 
 .gototop{position: fixed;bottom: 20px; right: 20px;background: rgba(0,0,0,0.5);padding: 10px;color: #fff;}
