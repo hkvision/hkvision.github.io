@@ -118,7 +118,7 @@ a.menu-toggle-btn {
  	color: white; 
 	text-transform: uppercase; 
 	display: block; 
-	background-color: #3cb04a; 
+	background-color: lightsteelblue; 
 	-webkit-transition: all 150ms ease-in; 
 	-moz-transition: all 150ms ease-in; 
 	-o-transition: all 150ms ease-in; 
@@ -460,7 +460,7 @@ a.menu_toggle-btn i {
 }
 
 .templatemo_footer { 
-	background: #3cb04b; 
+	background: lightblue; 
 	margin-top: 50px; 
 	padding: 10px 0px; 
 	text-align: center; 
