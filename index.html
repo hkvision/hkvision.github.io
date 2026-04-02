@@ -86,10 +86,10 @@
      <figure class="effect-oscar  wowload fadeInUp">
         <img src="images/bg/2.jpg" alt="img01"/>
         <figcaption>
-            <h2>样YOUNG</h2>
+            <h2>此刻着陆</h2>
             <br><br>
-            <p>抬头就有一片星光 - 官方MV<br><br>
-                <a href="#" data-toggle="modal" data-target="#video-modal">Enjoy</a></p>
+            <p>HKVISION LAND<br><br>
+                <a href="#" data-toggle="modal" data-target="#album-modal">个人概念专辑</a></p>
         </figcaption>
     </figure>
      <figure class="effect-oscar  wowload fadeInUp">
@@ -354,17 +354,32 @@ Template from: <a href="http://www.cssmoban.com/" target="_blank" title="模板�
   </div>
 </div>
 
+<!-- album modal -->
+<div id="album-modal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-md" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">此刻着陆 &mdash; 专辑曲目</h4>
+      </div>
+      <div class="modal-body" style="padding:0">
+        <ul class="album-track-list" id="album-track-list"></ul>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- video modal -->
 <div id="video-modal" class="modal fade" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">样YOUNG - 官方MV</h4>
+        <h4 class="modal-title" id="video-modal-title"></h4>
       </div>
       <div class="modal-body" style="padding:0">
         <div class="video-container">
-          <iframe id="bilibili-player" src="" data-src="https://player.bilibili.com/player.html?bvid=BV1DT4y1U7qk&page=1" scrolling="no" frameborder="0" allowfullscreen></iframe>
+          <iframe id="bilibili-player" src="" scrolling="no" frameborder="0" allowfullscreen></iframe>
         </div>
       </div>
     </div>
