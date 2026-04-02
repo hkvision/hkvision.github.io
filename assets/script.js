@@ -1,4 +1,13 @@
  jQuery(document).ready(function($) {
+
+  // 打开视频 modal 时加载 iframe，关闭时停止播放
+  $('#video-modal').on('show.bs.modal', function() {
+    var player = $('#bilibili-player');
+    player.attr('src', player.data('src'));
+  });
+  $('#video-modal').on('hidden.bs.modal', function() {
+    $('#bilibili-player').attr('src', '');
+  });
  
     $(".scroll a, .navbar-brand, .gototop").click(function(event){   
     event.preventDefault();
