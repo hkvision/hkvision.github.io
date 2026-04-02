@@ -143,6 +143,35 @@
 </div>
 <!-- works -->
 
+<!-- floating music player -->
+<div id="music-player-bar">
+  <div id="music-playlist">
+    <ul id="player-list"></ul>
+  </div>
+  <div id="music-bar">
+    <div class="bar-info">
+      <i class="fa fa-music"></i>
+      <span class="player-title">-</span>
+    </div>
+    <div class="bar-controls">
+      <button class="player-btn" id="player-prev"><i class="fa fa-step-backward"></i></button>
+      <button class="player-btn player-btn-main" id="player-play"><i class="fa fa-play"></i></button>
+      <button class="player-btn" id="player-next"><i class="fa fa-step-forward"></i></button>
+    </div>
+    <div class="bar-progress">
+      <div class="player-progress">
+        <div class="player-progress-bar"></div>
+      </div>
+      <div class="player-time">
+        <span class="player-current">0:00</span>&nbsp;/&nbsp;<span class="player-duration">0:00</span>
+      </div>
+    </div>
+    <button class="player-btn" id="player-toggle"><i class="fa fa-angle-up"></i></button>
+  </div>
+  <audio id="audio-player"></audio>
+</div>
+<!-- floating music player -->
+
 <div id="about"  class="container spacer about">    
     <div class="row">
       <h3 class="text-center wowload fadeInUp"><b>关于 HKVISION STUDIO</b></h3>

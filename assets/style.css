@@ -102,6 +102,36 @@ p{font-size:1em;line-height: 1.7em; margin-bottom: 1.7em;}
 /*contact*/
 
 
+/*music player*/
+body { padding-bottom: 56px; }
+#music-player-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 1050; }
+#music-bar { background: rgba(18,18,18,0.97); color: #fff; padding: 0 1.2em; height: 56px; display: flex; align-items: center; gap: 1.2em; }
+.bar-info { display: flex; align-items: center; gap: 0.7em; min-width: 0; flex: 0 0 200px; overflow: hidden; }
+.bar-info .fa-music { color: #21abca; flex-shrink: 0; }
+.bar-info .player-title { font-size: 0.9em; color: #ddd; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bar-controls { display: flex; align-items: center; gap: 0.6em; flex-shrink: 0; }
+#music-bar .player-btn { background: none; border: none; color: #aaa; font-size: 1em; cursor: pointer; padding: 0.4em; outline: none; }
+#music-bar .player-btn:hover { color: #21abca; }
+#music-bar .player-btn-main { font-size: 1.6em; color: #21abca; }
+.bar-progress { flex: 1; display: flex; align-items: center; gap: 0.8em; min-width: 0; }
+.bar-progress .player-progress { flex: 1; height: 3px; background: #444; border-radius: 2px; cursor: pointer; }
+.bar-progress .player-progress-bar { height: 100%; width: 0; background: #21abca; border-radius: 2px; pointer-events: none; }
+.bar-progress .player-time { font-size: 0.78em; color: #888; white-space: nowrap; flex-shrink: 0; }
+#player-toggle { flex-shrink: 0; font-size: 1.2em; transition: transform 0.3s; }
+#player-toggle.open { transform: rotate(180deg); }
+#music-playlist { background: rgba(18,18,18,0.97); border-top: 1px solid #2a2a2a; max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+#music-playlist.open { max-height: 280px; overflow-y: auto; }
+#player-list { list-style: none; padding: 0; margin: 0; }
+.player-list-item { display: flex; align-items: center; padding: 0.8em 1.5em; cursor: pointer; border-bottom: 1px solid #222; transition: background 0.2s; }
+.player-list-item:hover { background: #1e1e1e; }
+.player-list-item.active { background: #1a2a2e; }
+.player-list-num { width: 2em; font-size: 0.82em; color: #555; flex-shrink: 0; }
+.player-list-item.active .player-list-num { color: #21abca; }
+.player-list-title { flex: 1; font-size: 0.92em; color: #bbb; }
+.player-list-item.active .player-list-title { color: #21abca; }
+.player-list-icon { font-size: 0.75em; color: #21abca; }
+/*music player*/
+
 /*video modal*/
 .video-container{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;}
 .video-container iframe{position:absolute;top:0;left:0;width:100%;height:100%;}
