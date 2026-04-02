@@ -96,14 +96,18 @@ p{font-size:1em;line-height: 1.7em; margin-bottom: 1.7em;}
   }
 }
 @media(max-width:639px){
-  #works{grid-template-columns:1fr;}
+  #works{grid-template-columns:1fr;gap:16px;padding-left:1.2em;padding-right:1.2em;}
   #works figure:nth-child(odd){
-    -webkit-clip-path:polygon(0 0,92% 0,100% 8%,100% 100%,0 100%);
-    clip-path:polygon(0 0,92% 0,100% 8%,100% 100%,0 100%);
+    -webkit-clip-path:none;clip-path:none;
+    width:85%!important;justify-self:start;
+    border-radius:12px;
+    box-shadow:5px 8px 24px rgba(0,0,0,0.22);
   }
   #works figure:nth-child(even){
-    -webkit-clip-path:polygon(0 0,100% 0,100% 100%,8% 100%,0 92%);
-    clip-path:polygon(0 0,100% 0,100% 100%,8% 100%,0 92%);
+    -webkit-clip-path:none;clip-path:none;
+    width:85%!important;justify-self:end;
+    border-radius:12px;
+    box-shadow:-5px 8px 24px rgba(0,0,0,0.22);
   }
 }
 /*works*/
