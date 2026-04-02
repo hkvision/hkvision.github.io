@@ -192,6 +192,8 @@ body { padding-bottom: 56px; }
 .btn-stream:hover { color: #fff; background: #888; border-color: #888 !important; }
 .btn-mv { color: #fb7299; border: 1px solid #fb7299 !important; }
 .btn-mv:hover { background: #fb7299; color: #fff; }
+.btn-dance-mv { color: #21abca; border: 1px solid #21abca !important; }
+.btn-dance-mv:hover { background: #21abca; color: #fff; }
 /*album modal*/
 
 /*video modal*/

@@ -116,7 +116,7 @@
             <h2>此刻起舞</h2>
             <br><br>
             <p>Dance Cover🕺<br><br>
-            <a href="./pages/gallery.html">HKVISION GALAXY</a></p>
+            <a href="#" data-toggle="modal" data-target="#dance-modal">HKVISION GALAXY</a></p>
         </figcaption>
     </figure>
      
@@ -342,10 +342,25 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">此刻着陆 &mdash; 专辑曲目</h4>
+        <h4 class="modal-title">此刻着陆 HKVISION LAND</h4>
       </div>
       <div class="modal-body" style="padding:0">
         <ul class="album-track-list" id="album-track-list"></ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- dance modal -->
+<div id="dance-modal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-md" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Dance Cover</h4>
+      </div>
+      <div class="modal-body" style="padding:0">
+        <ul class="album-track-list" id="dance-track-list"></ul>
       </div>
     </div>
   </div>

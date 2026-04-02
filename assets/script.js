@@ -167,18 +167,20 @@
     setPlayIcon();
   });
 
-  // 专辑内点击 MV → 关闭专辑弹窗后打开视频弹窗
+  // 视频弹窗：专辑MV / 舞蹈视频 共用逻辑
   var pendingBvid = null;
   var pendingTitle = null;
+  var videoReturnTarget = null;
+
+  // 专辑内点击 MV → 关闭专辑弹窗后打开视频弹窗
   $(document).on('click', '.btn-mv', function() {
     pendingBvid  = $(this).data('bvid');
     pendingTitle = $(this).data('title');
+    videoReturnTarget = '#album-modal';
     $('#album-modal').modal('hide');
   });
-  var videoFromAlbum = false;
   $('#album-modal').on('hidden.bs.modal', function() {
-    if (pendingBvid) {
-      videoFromAlbum = true;
+    if (pendingBvid && videoReturnTarget === '#album-modal') {
       $('#video-modal-title').text(pendingTitle + ' - MV');
       $('#bilibili-player').data('bvid', pendingBvid);
       $('#video-modal').modal('show');
@@ -186,16 +188,112 @@
     }
   });
 
-  // 视频 modal：打开时加载 iframe，关闭时停止；若从专辑进入则返回专辑
+  // 舞蹈数据
+  var danceTracks = [
+    { title: '此刻着陆',                    credit: '',                              videos: [{bvid:'BV1rjh3zFEdR',label:'Dance Break'},{bvid:'BV1EYbAzbEwF',label:'手势舞'}] },
+    { title: 'HandClap',                    credit: 'Cover 马嘉祺 严浩翔 贺峻霖',    bvid: 'BV1we4y1o7Yh' },
+    { title: '快意',                         credit: 'Cover 马嘉祺 丁程鑫 刘隽',      bvid: 'BV1H14y127P3' },
+    { title: '要你管',                       credit: 'Cover 时代少年团',              bvid: 'BV1zN4y1g7ne' },
+    { title: '玫瑰少年',                     credit: 'Cover 蔡依林',                  bvid: 'BV1mK4y1a721' },
+    { title: 'Look What You Made Me Do',    credit: 'Cover 丁程鑫 宋亚轩 刘耀文 张真源', bvid: 'BV18K4y1f7pm' },
+    { title: 'We Rock',                     credit: 'Cover 刘冠佑',                  bvid: 'BV1fq4y1n7Mi' },
+    { title: '中枪舞',                       credit: 'Cover 易烊千玺',                bvid: 'BV1mZ4y1x7Hy' },
+    { title: 'Party In Your Bedroom',       credit: 'Cover 易烊千玺',                bvid: 'BV1sE411N7qp' },
+    { title: '姐姐恋爱吧',                   credit: 'Cover 台风少年团',              bvid: 'BV1CV411f7VX' },
+    { title: '睫毛弯弯',                     credit: 'Cover 马嘉祺 刘耀文 张真源 严浩翔', bvid: 'BV1LZ4y1T7ZS' },
+    { title: '朱雀',                         credit: 'Cover 时代少年团',              bvid: 'BV1mZ4y1Q78z' },
+    { title: 'Bad Idea',                    credit: 'Cover 马嘉祺 丁程鑫',           bvid: 'BV1yH6GYmEDN' },
+    { title: '少年之名',                     credit: 'Cover 左林杰',                  bvid: 'BV1kR4y1M7bj' },
+    { title: '偶像万万岁',                   credit: 'Cover 易安音乐社',              bvid: 'BV19f4y1i7Nc' },
+    { title: '华为 nova6 发布会舞蹈',        credit: 'Cover 易烊千玺',                bvid: 'BV1sA4y1D7Jj' },
+    { title: 'O.R.E.A',                     credit: 'Cover 钟汉良',                  bvid: 'BV1oyZZY3EF2' },
+    { title: '定格纪念',                     credit: 'Cover 易安音乐社',              bvid: 'BV1RV411Y7KX' },
+    { title: '十年之约',                     credit: 'Cover TFBOYS',                 bvid: 'BV1hF411o7YG' },
+    { title: '爱你',                         credit: 'Cover 王心凌',                  bvid: 'BV1FF41157S1' },
+    { title: '我喜欢你',                     credit: 'Cover 时代少年团',              bvid: 'BV1Mv411u7KP' },
+    { title: '绝配',                         credit: 'Cover 时代少年团',              bvid: 'BV18G4y1V7Rp' },
+    { title: '我们一起闯',                   credit: 'Cover 林墨',                    bvid: 'BV1mV411E7yK' },
+    { title: 'Here I AM',                   credit: 'Cover 井汲大翔',                bvid: 'BV1Ab411f74o' },
+    { title: 'O.O.O',                       credit: 'Cover 沈小婷',                  bvid: 'BV1Gf4y1A7RG' },
+    { title: 'Like JENNIE',                 credit: 'Cover JENNIE',                 bvid: 'BV1y4cFzZEUa' },
+    { title: 'Freaky',                      credit: 'Tory Lanez',                   bvid: 'BV19A411w7nH' },
+    { title: '告白气球',                     credit: '易烊千玺编舞',                  bvid: 'BV1sE411N7qp' },
+    { title: 'My Boo',                      credit: '易烊千玺',                      bvid: 'BV1Jf4y187MV' },
+    { title: '你最最最重要',                  credit: 'Cover 张艺凡',                  bvid: 'BV1pz411i71g' }
+  ];
+
+  // 渲染舞蹈列表
+  $.each(danceTracks, function(i, t) {
+    var num = (i + 1 < 10 ? '0' : '') + (i + 1);
+    var titleHtml = t.title + (t.credit ? '<br><small style="color:#aaa;font-size:0.8em">' + t.credit + '</small>' : '');
+    var btns = '';
+    if (t.videos) {
+      $.each(t.videos, function(j, v) {
+        btns += '<button class="btn-dance-mv" data-bvid="' + v.bvid + '" data-title="' + t.title + ' ' + v.label + '">&#9654; ' + v.label + '</button>';
+      });
+    } else {
+      btns = '<button class="btn-dance-mv" data-bvid="' + t.bvid + '" data-title="' + t.title + '">&#9654;</button>';
+    }
+    $('#dance-track-list').append(
+      '<li class="album-track-item">' +
+      '<span class="album-track-num">' + num + '</span>' +
+      '<span class="album-track-title">' + titleHtml + '</span>' +
+      '<span class="album-track-actions">' + btns + '</span>' +
+      '</li>'
+    );
+  });
+
+  // And More 结尾行
+  $('#dance-track-list').append(
+    '<li class="album-track-item" style="justify-content:center;color:#bbb;font-style:italic;letter-spacing:0.08em;">And More...</li>'
+  );
+
+  // 折叠16条之后的内容
+  $('#dance-track-list .album-track-item:gt(14)').hide();
+  $('#dance-track-list').after(
+    '<div style="text-align:center;padding:0.8em">' +
+    '<button id="dance-expand-btn" class="btn btn-default btn-sm">展开更多 ▾</button>' +
+    '</div>'
+  );
+  var danceExpanded = false;
+  $(document).on('click', '#dance-expand-btn', function() {
+    danceExpanded = !danceExpanded;
+    if (danceExpanded) {
+      $('#dance-track-list .album-track-item:gt(14)').show();
+      $(this).text('收起 ▴');
+    } else {
+      $('#dance-track-list .album-track-item:gt(14)').hide();
+      $(this).text('展开更多 ▾');
+    }
+  });
+
+  // 舞蹈弹窗内点击 B站 → 关闭舞蹈弹窗后打开视频弹窗
+  $(document).on('click', '.btn-dance-mv', function() {
+    pendingBvid  = $(this).data('bvid');
+    pendingTitle = $(this).data('title');
+    videoReturnTarget = '#dance-modal';
+    $('#dance-modal').modal('hide');
+  });
+  $('#dance-modal').on('hidden.bs.modal', function() {
+    if (pendingBvid && videoReturnTarget === '#dance-modal') {
+      $('#video-modal-title').text(pendingTitle);
+      $('#bilibili-player').data('bvid', pendingBvid);
+      $('#video-modal').modal('show');
+      pendingBvid = null;
+    }
+  });
+
+  // 视频 modal：打开时加载 iframe，关闭时返回来源弹窗
   $('#video-modal').on('show.bs.modal', function() {
     var bvid = $('#bilibili-player').data('bvid');
     if (bvid) $('#bilibili-player').attr('src', 'https://player.bilibili.com/player.html?bvid=' + bvid + '&page=1');
   });
   $('#video-modal').on('hidden.bs.modal', function() {
     $('#bilibili-player').attr('src', '');
-    if (videoFromAlbum) {
-      videoFromAlbum = false;
-      $('#album-modal').modal('show');
+    if (videoReturnTarget) {
+      var target = videoReturnTarget;
+      videoReturnTarget = null;
+      setTimeout(function() { $(target).modal('show'); }, 350);
     }
   });
  
