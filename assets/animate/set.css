@@ -611,50 +611,67 @@ figure.effect-oscar figcaption {
 
 figure.effect-oscar figcaption::before {
 	position: absolute;
-	top: 30px;
-	right: 30px;
-	bottom: 30px;
-	left: 30px;
-	border: 1px solid #fff;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
 	content: '';
+	background: linear-gradient(135deg, rgba(21,171,202,0.88) 0%, rgba(10,20,35,0.92) 100%);
+	opacity: 0;
+	-webkit-transition: opacity 0.35s;
+	transition: opacity 0.35s;
 }
 
 figure.effect-oscar h2 {
 	margin: 0;
 	line-height: 1em;
-	-webkit-transition: -webkit-transform 0.35s;
-	transition: transform 0.35s;
-	-webkit-transform: translate3d(0,100%,0);
-	transform: translate3d(0,100%,0);
+	position: relative;
+	z-index: 1;
+	opacity: 0;
+	letter-spacing: 0.4em;
+	-webkit-filter: blur(6px);
+	filter: blur(6px);
+	-webkit-transition: opacity 0.45s, letter-spacing 0.45s, -webkit-filter 0.45s;
+	transition: opacity 0.45s, letter-spacing 0.45s, filter 0.45s;
 }
 
-figure.effect-oscar figcaption::before,
 figure.effect-oscar p {
 	opacity: 0;
-	-webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
-	transition: opacity 0.35s, transform 0.35s;
-	-webkit-transform: scale(0);
-	transform: scale(0);
+	position: relative;
+	z-index: 1;
+	-webkit-filter: blur(4px);
+	filter: blur(4px);
+	-webkit-transform: translate3d(0, 12px, 0);
+	transform: translate3d(0, 12px, 0);
+	-webkit-transition: opacity 0.45s 0.15s, -webkit-filter 0.45s 0.15s, -webkit-transform 0.45s 0.15s;
+	transition: opacity 0.45s 0.15s, filter 0.45s 0.15s, transform 0.45s 0.15s;
+}
+
+figure.effect-oscar:hover figcaption::before {
+	opacity: 1;
 }
 
 figure.effect-oscar:hover h2 {
-	-webkit-transform: translate3d(0,0,0);
-	transform: translate3d(0,0,0);
+	opacity: 1;
+	letter-spacing: 0.05em;
+	-webkit-filter: blur(0);
+	filter: blur(0);
 }
 
-figure.effect-oscar:hover figcaption::before,
 figure.effect-oscar:hover p {
 	opacity: 1;
-	-webkit-transform: scale(1);
-	transform: scale(1);
+	-webkit-filter: blur(0);
+	filter: blur(0);
+	-webkit-transform: translate3d(0, 0, 0);
+	transform: translate3d(0, 0, 0);
 }
 
 figure.effect-oscar:hover figcaption {
-	background-color: rgba(0,0,0,0.8);
+	background-color: transparent;
 }
 
 figure.effect-oscar:hover img {
-	opacity: 0.4;
+	opacity: 0.5;
 }
 
 /*---------------*/
