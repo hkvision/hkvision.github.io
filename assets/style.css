@@ -76,12 +76,12 @@ p{font-size:1em;line-height: 1.7em; margin-bottom: 1.7em;}
   clip-path:polygon(0 0,100% 0,100% 100%,0 93%);
 }
 /* 每张卡片独立遮罩色 */
-#works figure:nth-child(1) figcaption::before{background:linear-gradient(135deg,rgba(0,190,210,0.65) 0%,rgba(10,30,90,0.72) 100%);}
-#works figure:nth-child(2) figcaption::before{background:linear-gradient(135deg,rgba(140,40,210,0.65) 0%,rgba(220,50,130,0.72) 100%);}
+#works figure:nth-child(1) figcaption::before{background:linear-gradient(135deg,rgba(0,190,210,0.58) 0%,rgba(10,30,90,0.65) 100%);}
+#works figure:nth-child(2) figcaption::before{background:linear-gradient(135deg,rgba(140,40,210,0.58) 0%,rgba(220,50,130,0.65) 100%);}
 #works figure:nth-child(3) figcaption::before{background:linear-gradient(135deg,rgba(220,60,90,0.65) 0%,rgba(245,130,30,0.72) 100%);}
-#works figure:nth-child(4) figcaption::before{background:linear-gradient(135deg,rgba(20,185,120,0.65) 0%,rgba(10,120,170,0.72) 100%);}
-#works figure:nth-child(5) figcaption::before{background:linear-gradient(135deg,rgba(70,50,210,0.65) 0%,rgba(160,40,190,0.72) 100%);}
-#works figure:nth-child(6) figcaption::before{background:linear-gradient(135deg,rgba(245,175,25,0.65) 0%,rgba(220,70,30,0.72) 100%);}
+#works figure:nth-child(4) figcaption::before{background:linear-gradient(135deg,rgba(20,185,120,0.58) 0%,rgba(10,120,170,0.68) 100%);}
+#works figure:nth-child(5) figcaption::before{background:linear-gradient(135deg,rgba(70,50,210,0.45) 0%,rgba(160,40,190,0.55) 100%);}
+#works figure:nth-child(6) figcaption::before{background:linear-gradient(135deg,rgba(245,175,25,0.70) 0%,rgba(220,70,30,0.78) 100%);}
 #works figcaption a{border:1px solid #fff;margin-top: 1em;display: inline-block;color: #fff;padding: 0 2em;}
 #works figcaption a:hover{text-decoration: none;padding: 0 3em;}
 @media(max-width:50em){
