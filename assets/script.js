@@ -108,6 +108,18 @@
     setPlayIcon();
   });
 
+  // 手机端点击卡片触发遮罩效果
+  $(document).on('touchend', '#works figure', function(e) {
+    var $this = $(this);
+    if (!$this.hasClass('tapped')) {
+      $('#works figure').removeClass('tapped');
+      $this.addClass('tapped');
+      e.preventDefault();
+    } else {
+      $this.removeClass('tapped');
+    }
+  });
+
   // 歌单展开/收起
   $('#player-toggle').click(function() {
     $('#music-playlist').toggleClass('open');

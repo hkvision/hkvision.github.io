@@ -604,9 +604,14 @@ figure.effect-oscar {
 */
 figure.effect-oscar figcaption {
 	padding: 15%;
-/*	background-color: rgba(58,52,42,0.7);
-	-webkit-transition: background-color 0.35s;
-	transition: background-color 0.35s;*/
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-direction: column;
+	flex-direction: column;
+	-webkit-justify-content: center;
+	justify-content: center;
+	-webkit-align-items: center;
+	align-items: center;
 }
 
 figure.effect-oscar figcaption::before {
@@ -627,18 +632,20 @@ figure.effect-oscar h2 {
 	line-height: 1em;
 	position: relative;
 	z-index: 1;
-	opacity: 0;
-	letter-spacing: 0.4em;
-	-webkit-filter: blur(6px);
-	filter: blur(6px);
-	-webkit-transition: opacity 0.45s, letter-spacing 0.45s, -webkit-filter 0.45s;
-	transition: opacity 0.45s, letter-spacing 0.45s, filter 0.45s;
+	opacity: 1;
+	-webkit-transform: translate3d(0,0,0);
+	transform: translate3d(0,0,0);
+	-webkit-transition: -webkit-transform 0.45s;
+	transition: transform 0.45s;
 }
 
 figure.effect-oscar p {
-	opacity: 0;
-	position: relative;
+	position: absolute;
+	bottom: 22%;
+	left: 0;
+	right: 0;
 	z-index: 1;
+	opacity: 0;
 	-webkit-filter: blur(4px);
 	filter: blur(4px);
 	-webkit-transform: translate3d(0, 12px, 0);
@@ -647,18 +654,20 @@ figure.effect-oscar p {
 	transition: opacity 0.45s 0.15s, filter 0.45s 0.15s, transform 0.45s 0.15s;
 }
 
-figure.effect-oscar:hover figcaption::before {
+figure.effect-oscar:hover figcaption::before,
+figure.effect-oscar.tapped figcaption::before {
 	opacity: 1;
 }
 
-figure.effect-oscar:hover h2 {
-	opacity: 1;
-	letter-spacing: 0.05em;
-	-webkit-filter: blur(0);
-	filter: blur(0);
+figure.effect-oscar:hover h2,
+figure.effect-oscar.tapped h2 {
+	-webkit-transform: translate3d(0,-60%,0);
+	transform: translate3d(0,-60%,0);
 }
 
-figure.effect-oscar:hover p {
+
+figure.effect-oscar:hover p,
+figure.effect-oscar.tapped p {
 	opacity: 1;
 	-webkit-filter: blur(0);
 	filter: blur(0);
@@ -666,7 +675,8 @@ figure.effect-oscar:hover p {
 	transform: translate3d(0, 0, 0);
 }
 
-figure.effect-oscar:hover figcaption {
+figure.effect-oscar:hover figcaption,
+figure.effect-oscar.tapped figcaption {
 	background-color: transparent;
 }
 

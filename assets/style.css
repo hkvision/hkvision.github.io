@@ -84,8 +84,28 @@ p{font-size:1em;line-height: 1.7em; margin-bottom: 1.7em;}
 #works figure:nth-child(6) figcaption::before{background:linear-gradient(135deg,rgba(245,175,25,0.65) 0%,rgba(220,70,30,0.72) 100%);}
 #works figcaption a{border:1px solid #fff;margin-top: 1em;display: inline-block;color: #fff;padding: 0 2em;}
 #works figcaption a:hover{text-decoration: none;padding: 0 3em;}
-@media(max-width:50em){#works{grid-template-columns:repeat(2,1fr);}}
-@media(max-width:639px){#works{grid-template-columns:1fr;}}
+@media(max-width:50em){
+  #works{grid-template-columns:repeat(2,1fr);}
+  #works figure:nth-child(odd){
+    -webkit-clip-path:polygon(0 0,92% 0,100% 8%,100% 100%,0 100%);
+    clip-path:polygon(0 0,92% 0,100% 8%,100% 100%,0 100%);
+  }
+  #works figure:nth-child(even){
+    -webkit-clip-path:polygon(0 0,100% 0,100% 100%,8% 100%,0 92%);
+    clip-path:polygon(0 0,100% 0,100% 100%,8% 100%,0 92%);
+  }
+}
+@media(max-width:639px){
+  #works{grid-template-columns:1fr;}
+  #works figure:nth-child(odd){
+    -webkit-clip-path:polygon(0 0,92% 0,100% 8%,100% 100%,0 100%);
+    clip-path:polygon(0 0,92% 0,100% 8%,100% 100%,0 100%);
+  }
+  #works figure:nth-child(even){
+    -webkit-clip-path:polygon(0 0,100% 0,100% 100%,8% 100%,0 92%);
+    clip-path:polygon(0 0,100% 0,100% 100%,8% 100%,0 92%);
+  }
+}
 /*works*/
 
 /*team*/
