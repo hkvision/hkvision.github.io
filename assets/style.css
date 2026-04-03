@@ -306,8 +306,13 @@ body { padding-bottom: 56px; }
 .album-track-item:last-child { border-bottom: none; }
 .album-track-num { width: 2em; font-size: 0.82em; color: #bbb; flex-shrink: 0; }
 .album-track-title { flex: 1; font-size: 0.95em; color: #111; font-weight: 500; }
+.album-track-link,
+.album-track-link:visited,
+.album-track-link:active,
+.album-track-link:hover { text-decoration: none !important; }
 .album-track-link { color: #111; font-weight: 500; }
-.album-track-link:hover { color: #21abca; text-decoration: underline; }
+.album-track-link:visited { color: #111; }
+.album-track-link:hover { color: #21abca; }
 .album-track-actions { display: flex; align-items: center; gap: 0.6em; flex-shrink: 0; }
 .album-track-actions a, .album-track-actions button { background: none; border: none; padding: 0.3em 0.5em; font-size: 0.85em; border-radius: 3px; cursor: pointer; text-decoration: none; line-height: 1; }
 .btn-play-track { color: #21abca; border: 1px solid #21abca !important; }
