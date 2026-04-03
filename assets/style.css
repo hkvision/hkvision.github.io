@@ -58,7 +58,7 @@ body {	color:#666;	font:300 15px/15px Roboto,Arial,Helvetica;background-color:#f
 }
 #welcome-sub {
   margin-top: 1.2em;
-  color: rgba(50, 20, 120, 0.85);
+  color: rgba(50, 20, 120, 0.95);
   font-family: 'Ma Shan Zheng', cursive;
   font-size: 1em;
   font-weight: 400;
@@ -66,7 +66,7 @@ body {	color:#666;	font:300 15px/15px Roboto,Arial,Helvetica;background-color:#f
   opacity: 0;
   animation: wHintIn 0.8s ease 1.6s forwards;
   transition: opacity 0.3s;
-  background: rgba(255,255,255,0.45);
+  background: rgba(255,255,255,0.72);
   padding: 0.35em 1.1em;
   border-radius: 2em;
 }

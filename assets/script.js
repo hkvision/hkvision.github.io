@@ -66,6 +66,8 @@ function loadDeferredImages() {
     var logoSplit = document.getElementById('logo-split');
     if (!logoSplit || !logoSplit.contains(e.target)) return;
     loadDeferredImages(); // start fetching content the moment user clicks
+    var works = document.getElementById('works');
+    if (works) works.style.pointerEvents = 'none';
     var lLeft  = document.getElementById('logo-half-left');
     var lRight = document.getElementById('logo-half-right');
     var hint   = document.getElementById('welcome-hint');
@@ -83,6 +85,7 @@ function loadDeferredImages() {
       overlay.classList.add('done');
       document.body.style.overflow = '';
       sessionStorage.setItem('hkv_welcomed', '1');
+      if (works) works.style.pointerEvents = '';
     }, 980);
   });
 })();
