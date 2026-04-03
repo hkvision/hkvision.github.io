@@ -420,6 +420,47 @@ body { padding-bottom: 56px; }
 .tl-tag-event  { background: rgba(245,200,80,0.15);  color: #b45309; }
 .tl-tag-origin { background: rgba(138,79,255,0.12);  color: #6d28d9; }
 .tl-tag-dance  { background: rgba(34,197,94,0.12);   color: #15803d; }
+/* Album covers flip */
+.cover-flip-card {
+  cursor: pointer;
+  max-width: 480px;
+  margin: 0 auto;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.cover-flip-inner {
+  position: relative;
+  width: 100%;
+}
+.cover-flip-front,
+.cover-flip-back {
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+}
+.cover-flip-back {
+  position: absolute;
+  top: 0; left: 0;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+.cover-flip-card.flipped .cover-flip-back {
+  opacity: 1;
+}
+.cover-flip-front img,
+.cover-flip-back img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.cover-flip-label {
+  text-align: center;
+  font-size: 0.82em;
+  color: #888;
+  padding: 0.5em 0 0.2em;
+  letter-spacing: 0.05em;
+}
 .tl-ending {
   text-align: center;
   margin-top: 2em;
@@ -489,6 +530,8 @@ body { padding-bottom: 56px; }
 	.navbar-toggle{margin-top: 12px;}
 
 	.carousel-caption,.carousel-control,.carousel-indicators{display: none;}
+	#covers-carousel .carousel-control{display: flex; align-items: center; justify-content: center;}
+	#covers-carousel .carousel-indicators{display: block;}
 
 	h2.text-center{text-align: left;font-size: 1.7em;}
 	h4 {font: 300 1.2em Roboto,Arial,Helvetica;}

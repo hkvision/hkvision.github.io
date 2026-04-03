@@ -138,7 +138,7 @@
             <h2>此刻纪念</h2>
             <br><br>
             <p>此刻着陆实体专辑💿<br><br>
-            <a href="https://qiye.aliyun.com">HKVISION LAND</a></p>
+            <a href="#" data-toggle="modal" data-target="#album-covers-modal">HKVISION LAND</a></p>
         </figcaption>
     </figure>
 
@@ -399,6 +399,56 @@
       </div>
       <div class="modal-body" style="padding:1.5em 2em 2em;max-height:70vh;overflow-y:auto">
         <div class="hkv-timeline" id="hkv-timeline"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- album covers modal -->
+<div id="album-covers-modal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="border-bottom:none;padding-bottom:0">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" style="font-family:Roboto,Arial,Helvetica;font-weight:300;letter-spacing:0.15em">HKVISION LAND</h4>
+      </div>
+      <div class="modal-body" style="padding:0">
+        <div id="covers-carousel" class="carousel slide" data-ride="carousel" data-interval="false">
+          <div class="carousel-inner">
+            <div class="item active">
+              <div class="cover-flip-card">
+                <div class="cover-flip-inner">
+                  <div class="cover-flip-front"><img data-src="images/专辑封面/望向银河.webp" alt="望向银河"/></div>
+                  <div class="cover-flip-back"><img data-src="images/专辑封面/望向银河-手绘.webp" alt=""/></div>
+                </div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="cover-flip-card">
+                <div class="cover-flip-inner">
+                  <div class="cover-flip-front"><img data-src="images/专辑封面/灿烂如歌.webp" alt="灿烂如歌"/></div>
+                  <div class="cover-flip-back"><img data-src="images/专辑封面/灿烂如歌-手绘.webp" alt=""/></div>
+                </div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="cover-flip-card">
+                <div class="cover-flip-inner">
+                  <div class="cover-flip-front"><img data-src="images/专辑封面/漂浮泡沫.webp" alt="漂浮泡沫"/></div>
+                  <div class="cover-flip-back"><img data-src="images/专辑封面/漂浮泡沫-手绘.webp" alt=""/></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <a class="left carousel-control" href="#covers-carousel" data-slide="prev" style="background:none"><span class="glyphicon glyphicon-chevron-left" style="color:#fff;text-shadow:0 1px 4px rgba(0,0,0,0.5)"></span></a>
+          <a class="right carousel-control" href="#covers-carousel" data-slide="next" style="background:none"><span class="glyphicon glyphicon-chevron-right" style="color:#fff;text-shadow:0 1px 4px rgba(0,0,0,0.5)"></span></a>
+          <ol class="carousel-indicators" style="bottom:-28px">
+            <li data-target="#covers-carousel" data-slide-to="0" class="active"></li>
+            <li data-target="#covers-carousel" data-slide-to="1"></li>
+            <li data-target="#covers-carousel" data-slide-to="2"></li>
+          </ol>
+        </div>
+        <div style="height:36px"></div>
       </div>
     </div>
   </div>

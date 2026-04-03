@@ -331,6 +331,33 @@ jQuery(document).ready(function($) {
   var pendingTitle = null;
   var videoReturnTarget = null;
 
+  // 专辑封面翻转
+  // 封面双击/双击触摸 切换手绘版
+  var lastTapTarget = null, lastTapTime = 0;
+  $(document).on('dblclick', '.cover-flip-card', function(e) {
+    e.preventDefault();
+    $(this).toggleClass('flipped');
+  });
+  $(document).on('touchend', '.cover-flip-card', function(e) {
+    var now = Date.now();
+    if (this === lastTapTarget && now - lastTapTime < 300) {
+      e.preventDefault();
+      $(this).toggleClass('flipped');
+      lastTapTime = 0;
+    } else {
+      lastTapTarget = this;
+      lastTapTime = now;
+    }
+  });
+  $('#album-covers-modal').on('show.bs.modal', function() {
+    $(this).find('img[data-src]').each(function() {
+      $(this).attr('src', $(this).data('src')).removeAttr('data-src');
+    });
+  });
+  $('#covers-carousel').on('slide.bs.carousel', function() {
+    $(this).find('.cover-flip-card.flipped').removeClass('flipped');
+  });
+
   // 封面弹窗
   $(document).on('click', '.btn-cover', function() {
     $('#cover-modal-title').text($(this).data('title'));
