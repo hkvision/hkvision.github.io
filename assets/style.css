@@ -97,7 +97,13 @@ p{font-size:1em;line-height: 1.7em; margin-bottom: 1.7em;}
   }
 }
 @media(max-width:639px){
-  #works{grid-template-columns:1fr;gap:16px;padding-left:1.2em;padding-right:1.2em;}
+  #music-bar { height: auto !important; flex-wrap: wrap !important; padding: 0.3em 0.8em !important; gap: 0 !important; }
+  .bar-info { flex: 1 !important; min-width: 0; order: 1; }
+  .bar-controls { order: 2; flex-shrink: 0; }
+  #player-toggle { order: 3; flex-shrink: 0; }
+  .bar-progress { order: 4; flex: 0 0 100% !important; padding: 0.2em 0 0.4em; }
+  body { padding-bottom: 76px; }
+#works{grid-template-columns:1fr;gap:16px;padding-left:1.2em;padding-right:1.2em;}
   #works figure:nth-child(odd){
     -webkit-clip-path:none;clip-path:none;
     width:85%!important;justify-self:start;

@@ -113,6 +113,10 @@
     audio.play(); isPlaying = true; setPlayIcon();
   });
 
+  $(audio).on('loadedmetadata', function() {
+    $('.player-duration').text(formatTime(audio.duration));
+  });
+
   $(audio).on('timeupdate', function() {
     if (audio.duration) {
       $('.player-progress-bar').css('width', (audio.currentTime / audio.duration * 100) + '%');
