@@ -449,6 +449,103 @@ jQuery(document).ready(function($) {
     }
   });
 
+  // 大事年表 timeline
+  var timelineEvents = [
+    { year: '2022', events: [
+      { date: '03.19', tag: 'video',  tagLabel: 'MV',   title: '发布《样（YOUNG）》MV' },
+      { date: '09.04', tag: 'music',  tagLabel: '音乐', title: '发布《和自己对话》' },
+    ]},
+    { year: '2023', events: [
+      { date: '04.15', tag: 'music',  tagLabel: '音乐', title: '发布《记录你所给我的一切》' },
+      { date: '12.21', tag: 'event',  tagLabel: '封面', title: '发布《和自己对话》"双面暗影"单曲封面' },
+      { date: '12.22', tag: 'video',  tagLabel: 'MV',   title: '发布《和自己对话》MV' },
+    ]},
+    { year: '2024', events: [
+      { date: '01.01', tag: 'event',  tagLabel: '封面',   title: '发布《和自己对话》"黑白双生"单曲封面' },
+      { date: '01.01', tag: 'event',  tagLabel: '封面',   title: '发布《嘿，你还好吗》单曲封面' },
+      { date: '02.09', tag: 'video',  tagLabel: 'MV',     title: '发布《嘿，你还好吗》MV' },
+      { date: '02.28', tag: 'origin', tagLabel: '音乐', title: '启动《此刻着陆 HKVISION LAND》概念专辑' },
+      { date: '02.28', tag: 'event',  tagLabel: '封面',   title: '发布『此刻着陆』"望向银河"封面' },
+      { date: '02.28', tag: 'video',  tagLabel: 'MV',     title: '发布《给未来的自己》MV' },
+      { date: '03.18', tag: 'video',  tagLabel: 'MV',     title: '发布《Fall》MV' },
+      { date: '03.19', tag: 'event',  tagLabel: '封面',   title: '发布《样（YOUNG）》单曲封面' },
+      { date: '05.17', tag: 'event',  tagLabel: '封面',   title: '发布《给未来的自己》单曲封面' },
+      { date: '05.17', tag: 'event',  tagLabel: '🌟',   title: '发布『此刻着陆』HK面对自我logo' },
+      { date: '07.01', tag: 'event',  tagLabel: '封面',   title: '发布『此刻着陆』"望向银河"手绘版封面' },
+      { date: '07.07', tag: 'event',  tagLabel: '🌟',   title: '发布『此刻着陆』HK飞行logo' },
+      { date: '10.07', tag: 'event',  tagLabel: '封面',   title: '发布《Fall》单曲封面' },
+      { date: '10.29', tag: 'event',  tagLabel: '封面',   title: '发布《同乘》单曲封面' },
+      { date: '10.29', tag: 'video',  tagLabel: 'MV',     title: '发布《同乘》MV' },
+      { date: '11.11', tag: 'event',  tagLabel: '封面',   title: '发布《记录你所给我的一切》"晚星涂鸦"单曲封面' },
+      { date: '11.16', tag: 'video',  tagLabel: 'MV',     title: '发布《记录你所给我的一切》MV' },
+      { date: '12.07', tag: 'event',  tagLabel: '写真',   title: '发布『此刻着陆』航线—迷幻主人公"暗夜使者"写真' },
+    ]},
+    { year: '2025', events: [
+      { date: '01.01', tag: 'event',  tagLabel: '封面',   title: '发布『此刻着陆』"灿烂如歌"封面' },
+      { date: '01.28', tag: 'event',  tagLabel: '写真',   title: '发布『此刻着陆』航线—古城主人公"繁花墨客"写真' },
+      { date: '02.10', tag: 'video',  tagLabel: '预告',   title: '发布《此刻着陆》直拍预告' },
+      { date: '02.15', tag: 'event',  tagLabel: '封面',   title: '发布『此刻着陆』"灿烂如歌"手绘版封面' },
+      { date: '02.17', tag: 'video',  tagLabel: '预告',   title: '发布《此刻着陆》星河闪耀预告' },
+      { date: '02.19', tag: 'event',  tagLabel: '封面',   title: '发布『此刻着陆』"漂浮泡沫"封面' },
+      { date: '02.20', tag: 'event',  tagLabel: '封面',   title: '发布『此刻着陆』"漂浮泡沫"手绘版封面' },
+      { date: '02.22', tag: 'music',  tagLabel: '音乐',   title: '发布《此刻着陆》' },
+      { date: '02.22', tag: 'event',  tagLabel: '封面',   title: '发布『此刻着陆』"昼夜双生"手绘封面' },
+      { date: '02.22', tag: 'event',  tagLabel: '封面',   title: '发布『此刻着陆』"振翅返航"歌词海报' },
+      { date: '02.28', tag: 'event',  tagLabel: '写真',   title: '发布『此刻着陆』航线—摇曳主人公"流苏绅士"写真' },
+      { date: '03.02', tag: 'video',  tagLabel: 'MV',     title: '发布《此刻着陆》特别祝福篇《此刻庆祝》' },
+      { date: '03.18', tag: 'event',  tagLabel: '写真',   title: '发布『此刻着陆』航线—宫阙主人公"盛世公子"写真' },
+      { date: '03.19', tag: 'event',  tagLabel: '封面',   title: '发布《记录你所给我的一切》"三生三世"单曲封面' },
+      { date: '05.06', tag: 'event',  tagLabel: '写真',   title: '发布『此刻着陆』航线—光明主人公"羽翼少年"写真' },
+      { date: '06.28', tag: 'event',  tagLabel: '写真',   title: '发布『此刻着陆』航线—野兽主人公"貂皮射手"写真' },
+      { date: '07.01', tag: 'video',  tagLabel: '预告',   title: '发布《此刻着陆》MV Teaser' },
+      { date: '07.05', tag: 'event',  tagLabel: '封面',   title: '发布《此刻着陆》MV沙画封面' },
+      { date: '07.05', tag: 'video',  tagLabel: 'MV',     title: '《此刻着陆》MV点映礼' },
+      { date: '07.06', tag: 'video',  tagLabel: 'MV',     title: '发布《此刻着陆》MV' },
+      { date: '08.03', tag: 'dance',  tagLabel: '舞蹈',   title: '发布《此刻着陆》Dance Break' },
+      { date: '08.08', tag: 'dance',  tagLabel: '舞蹈',   title: '发布《此刻着陆》手势舞' },
+      { date: '08.09', tag: 'music',  tagLabel: '音乐',   title: '发布《此刻着陆》打歌舞台' },
+      { date: '08.13', tag: 'dance',  tagLabel: '舞蹈',   title: '发布《此刻着陆》Dance Break 及手势舞分解教程' },
+      { date: '08.28', tag: 'music',  tagLabel: '音乐',   title: '发布《此刻回望》' },
+      { date: '10.02', tag: 'music',  tagLabel: '音乐',   title: '发布《此刻着陆》架子鼓' },
+      { date: '11.23', tag: 'video',  tagLabel: 'MV',     title: '发布《HKVISION LAND》MV' },
+      { date: '11.28', tag: 'music',  tagLabel: '音乐',   title: '发布《HKVISION LAND》' },
+      { date: '12.01', tag: 'origin', tagLabel: '音乐', title: '发布《此刻着陆 HKVISION LAND》典藏Live辑《此刻闪耀》' },
+    ]},
+  ];
+
+  (function() {
+    var $tl = $('#hkv-timeline');
+    if (!$tl.length) return;
+    var tagClass = { music: 'tl-tag-music', video: 'tl-tag-video', event: 'tl-tag-event', origin: 'tl-tag-origin', dance: 'tl-tag-dance' };
+    $.each(timelineEvents, function(i, group) {
+      $tl.append(
+        '<div class="tl-year-header">' +
+          '<div class="tl-year-label">' + group.year + '</div>' +
+          '<div class="tl-year-line"></div>' +
+        '</div>'
+      );
+      var lastDate = null;
+      $.each(group.events, function(j, e) {
+        var showDate = e.date !== lastDate;
+        lastDate = e.date;
+        $tl.append(
+          '<div class="tl-item">' +
+            '<div class="tl-date">' + (showDate ? e.date : '') + '</div>' +
+            '<div class="tl-dot"></div>' +
+            '<div class="tl-content">' +
+              '<span class="tl-tag ' + (tagClass[e.tag] || '') + '">' + e.tagLabel + '</span>' +
+              '<div class="tl-title">' + e.title + '</div>' +
+              (e.desc ? '<div class="tl-desc">' + e.desc + '</div>' : '') +
+            '</div>' +
+          '</div>'
+        );
+      });
+    });
+    $tl.append(
+      '<div class="tl-ending">此刻着陆 &nbsp;无限精彩</div>'
+    );
+  })();
+
   // 视频 modal：打开时加载 iframe，关闭时返回来源弹窗
   $('#video-modal').on('show.bs.modal', function() {
     var bvid = $('#bilibili-player').data('bvid');
