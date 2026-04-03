@@ -188,6 +188,11 @@ body { padding-bottom: 56px; }
 .album-track-actions a, .album-track-actions button { background: none; border: none; padding: 0.3em 0.5em; font-size: 0.85em; border-radius: 3px; cursor: pointer; text-decoration: none; line-height: 1; }
 .btn-play-track { color: #21abca; border: 1px solid #21abca !important; }
 .btn-play-track:hover { background: #21abca; color: #fff; }
+.album-track-locked { background: linear-gradient(90deg, rgba(255,200,50,0.08), rgba(255,160,0,0.13), rgba(255,200,50,0.08)); border-bottom: 1px solid rgba(255,180,0,0.2) !important; }
+.album-track-mystery { font-size: 1em; font-weight: bold; color: #c8920a; letter-spacing: 0.15em; }
+.album-track-locked small { color: #c8920a; opacity: 0.75; font-size: 0.78em; letter-spacing: 0.05em; }
+.album-track-locked .album-track-num { color: #c8920a; }
+.btn-locked { border: 1px solid #c8920a !important; color: #c8920a; cursor: not-allowed !important; opacity: 0.7; }
 .btn-stream { color: #888; border: 1px solid #ccc !important; }
 .btn-stream:hover { color: #fff; background: #888; border-color: #888 !important; }
 .btn-mv { color: #fb7299; border: 1px solid #fb7299 !important; }

@@ -2,16 +2,18 @@
 
   // 音乐播放器
   var songs = [
-    { title: 'Track 01', file: 'audio/01.mp3' },
-    { title: 'Track 02', file: 'audio/02.mp3' },
-    { title: 'Track 03', file: 'audio/03.mp3' },
-    { title: 'Track 04', file: 'audio/04.mp3' },
-    { title: 'Track 05', file: 'audio/05.mp3' },
-    { title: 'Track 06', file: 'audio/06.mp3' },
-    { title: 'Track 07', file: 'audio/07.mp3' },
-    { title: 'Track 08', file: 'audio/08.mp3' },
-    { title: 'Track 09', file: 'audio/09.mp3' },
-    { title: 'Track 10', file: 'audio/10.mp3' }
+    { title: '待解锁 敬请期待',        file: 'audio/01.mp3' },
+    { title: '和自己对话',             file: 'audio/02.mp3' },
+    { title: '样（YOUNG）',            file: 'audio/03.mp3' },
+    { title: '待解锁 敬请期待',        file: 'audio/04.mp3' },
+    { title: 'Fall',                   file: 'audio/05.mp3' },
+    { title: 'HKVISION LAND',          file: 'audio/06.mp3' },
+    { title: '此刻回望',               file: 'audio/07.mp3' },
+    { title: '嘿，你还好吗',           file: 'audio/08.mp3' },
+    { title: '记录你所给我的一切',     file: 'audio/09.mp3' },
+    { title: '此刻着陆',               file: 'audio/10.mp3' },
+    { title: '同乘',                   file: 'audio/11.mp3' },
+    { title: '给未来的自己',           file: 'audio/12.mp3' }
   ];
 
   var currentIndex = 0;
@@ -128,34 +130,46 @@
 
   // 专辑曲目数据（后续替换真实链接）
   var albumTracks = [
-    { title: 'Track 01', audioIndex: 0, qqUrl: 'https://y.qq.com/n/ryqq_v2/songDetail/0039tIo02YCRDk', wyyUrl: null, bvid: 'BV1DT4y1U7qk', biliUrl: 'https://www.bilibili.com/video/BV1DT4y1U7qk' },
-    { title: 'Track 02', audioIndex: 1, qqUrl: 'https://y.qq.com/', wyyUrl: null,                     bvid: null, biliUrl: null },
-    { title: 'Track 03', audioIndex: 2, qqUrl: 'https://y.qq.com/', wyyUrl: null,                     bvid: null, biliUrl: null },
-    { title: 'Track 04', audioIndex: 3, qqUrl: 'https://y.qq.com/', wyyUrl: null,                     bvid: null, biliUrl: null },
-    { title: 'Track 05', audioIndex: 4, qqUrl: 'https://y.qq.com/', wyyUrl: null,                     bvid: null, biliUrl: null },
-    { title: 'Track 06', audioIndex: 5, qqUrl: 'https://y.qq.com/', wyyUrl: null,                     bvid: null, biliUrl: null },
-    { title: 'Track 07', audioIndex: 6, qqUrl: 'https://y.qq.com/', wyyUrl: null,                     bvid: null, biliUrl: null },
-    { title: 'Track 08', audioIndex: 7, qqUrl: 'https://y.qq.com/', wyyUrl: null,                     bvid: null, biliUrl: null },
-    { title: 'Track 09', audioIndex: 8, qqUrl: 'https://y.qq.com/', wyyUrl: null,                     bvid: null, biliUrl: null },
-    { title: 'Track 10', audioIndex: 9, qqUrl: 'https://y.qq.com/', wyyUrl: 'https://music.163.com/', bvid: null, biliUrl: null }
+    { title: '待解锁 敬请期待',    audioIndex: 0,  qqUrl: null,                                                              wyyUrl: null, bvid: null, biliUrl: null },
+    { title: '和自己对话',         audioIndex: 1,  qqUrl: 'https://y.qq.com/',                                               wyyUrl: null, bvid: null, biliUrl: null },
+    { title: '样（YOUNG）',        audioIndex: 2,  qqUrl: 'https://y.qq.com/n/ryqq_v2/songDetail/0039tIo02YCRDk',           wyyUrl: null, bvid: 'BV1DT4y1U7qk', biliUrl: 'https://www.bilibili.com/video/BV1DT4y1U7qk' },
+    { title: '待解锁 敬请期待',    audioIndex: 3,  qqUrl: null,                                                              wyyUrl: null, bvid: null, biliUrl: null },
+    { title: 'Fall',               audioIndex: 4,  qqUrl: 'https://y.qq.com/',                                               wyyUrl: null, bvid: null, biliUrl: null },
+    { title: 'HKVISION LAND',      audioIndex: 5,  qqUrl: 'https://y.qq.com/',                                               wyyUrl: null, bvid: null, biliUrl: null },
+    { title: '此刻回望',           audioIndex: 6,  qqUrl: 'https://y.qq.com/',                                               wyyUrl: null, bvid: null, biliUrl: null },
+    { title: '嘿，你还好吗',       audioIndex: 7,  qqUrl: 'https://y.qq.com/',                                               wyyUrl: null, bvid: null, biliUrl: null },
+    { title: '记录你所给我的一切', audioIndex: 8,  qqUrl: 'https://y.qq.com/',                                               wyyUrl: null, bvid: null, biliUrl: null },
+    { title: '此刻着陆',           audioIndex: 9,  qqUrl: 'https://y.qq.com/',                                               wyyUrl: null, bvid: null, biliUrl: null },
+    { title: '同乘',               audioIndex: 10, qqUrl: 'https://y.qq.com/',                                               wyyUrl: null, bvid: null, biliUrl: null },
+    { title: '给未来的自己',       audioIndex: 11, qqUrl: 'https://y.qq.com/',                                               wyyUrl: null, bvid: null, biliUrl: null }
   ];
 
   // 渲染专辑曲目列表
   $.each(albumTracks, function(i, t) {
     var num = (i + 1 < 10 ? '0' : '') + (i + 1);
-    var titleHtml = t.qqUrl
-      ? '<a class="album-track-link" href="' + t.qqUrl + '" target="_blank">' + t.title + '</a>'
-      : (t.wyyUrl ? '<a class="album-track-link" href="' + t.wyyUrl + '" target="_blank">' + t.title + '</a>' : t.title);
-    var actions = '';
-    actions += '<button class="btn-play-track" data-audio-index="' + t.audioIndex + '">&#9654;</button>';
-    if (t.bvid) actions += '<button class="btn-mv" data-bvid="' + t.bvid + '" data-title="' + t.title + '"><i class="fa fa-film"></i> MV</button>';
-    $('#album-track-list').append(
-      '<li class="album-track-item">' +
-      '<span class="album-track-num">' + num + '</span>' +
-      '<span class="album-track-title">' + titleHtml + '</span>' +
-      '<span class="album-track-actions">' + actions + '</span>' +
-      '</li>'
-    );
+    var locked = !t.qqUrl && !t.wyyUrl;
+    if (locked) {
+      $('#album-track-list').append(
+        '<li class="album-track-item album-track-locked">' +
+        '<span class="album-track-num">🔒</span>' +
+        '<span class="album-track-title"><span class="album-track-mystery">待解锁</span><br><small>敬请期待</small></span>' +
+        '<span class="album-track-actions"><button class="btn-play-track btn-locked" disabled>🔒</button></span>' +
+        '</li>'
+      );
+    } else {
+      var titleHtml = t.qqUrl
+        ? '<a class="album-track-link" href="' + t.qqUrl + '" target="_blank">' + t.title + '</a>'
+        : (t.wyyUrl ? '<a class="album-track-link" href="' + t.wyyUrl + '" target="_blank">' + t.title + '</a>' : t.title);
+      var actions = '<button class="btn-play-track" data-audio-index="' + t.audioIndex + '">&#9654;</button>';
+      if (t.bvid) actions += '<button class="btn-mv" data-bvid="' + t.bvid + '" data-title="' + t.title + '"><i class="fa fa-film"></i> MV</button>';
+      $('#album-track-list').append(
+        '<li class="album-track-item">' +
+        '<span class="album-track-num">' + num + '</span>' +
+        '<span class="album-track-title">' + titleHtml + '</span>' +
+        '<span class="album-track-actions">' + actions + '</span>' +
+        '</li>'
+      );
+    }
   });
 
   // 专辑内点击播放 → 底部播放器（保持弹窗不关闭）
@@ -213,9 +227,9 @@
     { title: '我喜欢你',                     credit: 'Cover 时代少年团',              bvid: 'BV1Mv411u7KP' },
     { title: '绝配',                         credit: 'Cover 时代少年团',              bvid: 'BV18G4y1V7Rp' },
     { title: '我们一起闯',                   credit: 'Cover 林墨',                    bvid: 'BV1mV411E7yK' },
-    { title: 'Here I AM',                   credit: 'Cover 井汲大翔',                bvid: 'BV1Ab411f74o' },
+    { title: 'Here I Am',                   credit: 'Cover 井汲大翔',                bvid: 'BV1Ab411f74o' },
     { title: 'O.O.O',                       credit: 'Cover 沈小婷',                  bvid: 'BV1Gf4y1A7RG' },
-    { title: 'Like JENNIE',                 credit: 'Cover JENNIE',                 bvid: 'BV1y4cFzZEUa' },
+    { title: 'like JENNIE',                 credit: 'Cover JENNIE',                 bvid: 'BV1y4cFzZEUa' },
     { title: 'Freaky',                      credit: 'Tory Lanez',                   bvid: 'BV19A411w7nH' },
     { title: '告白气球',                     credit: '易烊千玺编舞',                  bvid: 'BV1sE411N7qp' },
     { title: 'My Boo',                      credit: '易烊千玺',                      bvid: 'BV1Jf4y187MV' },
