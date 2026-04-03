@@ -31,9 +31,21 @@ p{font-size:1em;line-height: 1.7em; margin-bottom: 1.7em;}
 
 .topbar {background:linear-gradient(90deg,#1e3a8a,#7c3aed,#0e7490,#e879f9,#1e3a8a,#7c3aed,#0e7490);background-size:300% 100%;animation:flowGradient 6s linear infinite;height:5px;position:fixed;top:0;width:100%;z-index:1000;}
 @keyframes flowGradient{0%{background-position:0% 0%}100%{background-position:100% 0%}}
-.navbar-nav > li > a{font-size: 1em;line-height: 3.6em;}
+.navbar-nav > li > a{font-size: 1em;line-height: 3.6em; color: #1a1a3e !important;}
+.navbar-nav > li > a:hover { color: #7c3aed !important; }
 .navbar-fixed-top{top: 5px;}
 .navbar-inverse{background: #111;}
+#top-nav {
+  background:
+    linear-gradient(to bottom, rgba(255,255,255,0) 50%, rgba(255,255,255,0.9) 100%),
+    linear-gradient(rgba(255,255,255,0.45), rgba(255,255,255,0.45)),
+    url('../images/monogram/v4_full.jpg') repeat;
+  background-size: auto, auto, 320px auto;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: none !important;
+  box-shadow: 0 4px 20px rgba(80,80,180,0.1);
+}
 .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:hover, .navbar-default .navbar-nav>.active>a:focus{background: none;color: #21abca;}
 
 #head,.carousel{margin-top: 0;}
@@ -216,16 +228,20 @@ body { padding-bottom: 56px; }
 /*video modal*/
 
 .footer{
-  background:radial-gradient(rgba(255,255,255,0.07) 1px,transparent 1px),linear-gradient(135deg,rgba(30,58,138,0.35) 0%,rgba(124,58,237,0.35) 50%,rgba(14,116,144,0.35) 100%);
-  background-size:18px 18px,100% 100%;
-  background-color:transparent;
-  border-top:none;
-  position:relative;
-  color:rgba(255,255,255,0.7);
-  font-size:0.88em;
-  padding:1.4em 0;
+  background:
+    linear-gradient(to bottom, rgba(40,16,0,1) 0%, rgba(40,16,0,0) 40%),
+    linear-gradient(rgba(255,230,180,0.18), rgba(255,230,180,0.18)),
+    url('../images/monogram/v1_full.jpg') repeat;
+  background-size: auto, auto, 300px auto;
+  background-color: #3d1f00;
+  border-top: none;
+  position: relative;
+  color: rgba(255,220,160,0.8);
+  font-size: 0.88em;
+  padding: 2em 0 1.4em;
 }
-.footer a{color:rgba(255,255,255,0.7);}
+.footer a{color:rgba(255,220,160,0.8);}
+.footer a:hover{color:#f5c87a;}
 .footer::before{content:'';display:block;position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#1e3a8a,#7c3aed,#0e7490,#e879f9,#1e3a8a,#7c3aed,#0e7490);background-size:300% 100%;animation:flowGradient 6s linear infinite;}
 
 .gototop{position: fixed;bottom: 76px; right: 20px;background: rgba(0,0,0,0.5);padding: 10px;color: #fff;}
