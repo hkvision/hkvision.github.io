@@ -170,6 +170,18 @@ p{font-size:1em;line-height: 1.7em; margin-bottom: 1.7em;}
 .process ul li span b{display: block;font-size: 1em;font-weight: 300;}
 
 
+/* connect */
+#connect-list li{vertical-align:top;}
+#connect-list li a{color:#21ABCA;}
+#connect-list li a:hover{text-decoration:none;color:#0e8fa8;}
+.connect-bili-svg{width:3em;height:3em;display:block;margin:0 auto;}
+#connect-wechat{height:auto;border:none;border-radius:0;line-height:normal;}
+#connect-wechat a{color:#21ABCA;}
+#connect-wechat a:hover{text-decoration:none;color:#0e8fa8;}
+#connect-wechat > a > span{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:10em;height:10em;border:1px solid #CEEBF0;border-radius:50%;gap:0.3em;}
+#connect-wechat > a > span i{font-size:3em;line-height:1;}
+#connect-wechat > a > span b{display:block;font-size:1em;font-weight:300;line-height:1.4;}
+
 /*testimonials*/
 .partners img{float: left;margin:0 75px 30px 0;}
 .testimonails{min-height: 195px;}
