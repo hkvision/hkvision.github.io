@@ -2,12 +2,12 @@
 
   // 音乐播放器
   var songs = [
-    { title: '待解锁 敬请期待',        file: 'audio/01.mp3' },
+    { title: '待解锁 敬请期待',        file: '',              locked: true },
     { title: '和自己对话',             file: 'audio/02.mp3' },
     { title: '样（YOUNG）',            file: 'audio/03.mp3' },
-    { title: '待解锁 敬请期待',        file: 'audio/04.mp3' },
+    { title: '待解锁 敬请期待',        file: '',              locked: true },
     { title: 'Fall',                   file: 'audio/05.mp3' },
-    { title: 'HKVISION LAND',          file: 'audio/06.mp3' },
+    { title: 'HKVISION LAND',          file: 'audio/06.wav' },
     { title: '此刻回望',               file: 'audio/07.mp3' },
     { title: '嘿，你还好吗',           file: 'audio/08.mp3' },
     { title: '记录你所给我的一切',     file: 'audio/09.mp3' },
@@ -19,6 +19,36 @@
   var currentIndex = 0;
   var isPlaying = false;
   var audio = document.getElementById('audio-player');
+
+  function nextPlayable(from, direction) {
+    var step = direction === 'prev' ? -1 : 1;
+    var i = (from + step + songs.length) % songs.length;
+    while (i !== from) {
+      if (!songs[i].locked) return i;
+      i = (i + step + songs.length) % songs.length;
+    }
+    return from;
+  }
+
+  // 播放模式：0=顺序循环 1=随机 2=单曲循环
+  var playMode = 0;
+  var modes = [
+    { icon: 'fa fa-repeat',  label: '顺序循环' },
+    { icon: 'fa fa-random',  label: '随机播放' },
+    { icon: 'fa fa-repeat',  label: '单曲循环', badge: '1' }
+  ];
+  function updateModeBtn() {
+    var m = modes[playMode];
+    $('#player-mode i').attr('class', m.icon);
+    $('#player-mode').attr('title', m.label).toggleClass('mode-active', playMode !== 0);
+    $('#player-mode .mode-badge').remove();
+    if (m.badge) $('#player-mode').append('<span class="mode-badge">' + m.badge + '</span>');
+  }
+  $('#player-mode').click(function() {
+    playMode = (playMode + 1) % 3;
+    updateModeBtn();
+  });
+  updateModeBtn();
 
   // 渲染歌单
   $.each(songs, function(i, song) {
@@ -59,7 +89,7 @@
     $('.player-list-icon').attr('class', 'fa fa-play player-list-icon');
   }
 
-  loadSong(0);
+  loadSong(songs[0].locked ? nextPlayable(0, 'next') : 0);
 
   $('#player-play').click(function() {
     if (isPlaying) {
@@ -74,13 +104,13 @@
   });
 
   $('#player-prev').click(function() {
-    loadSong((currentIndex - 1 + songs.length) % songs.length);
-    if (isPlaying) { audio.play(); setPlayIcon(); }
+    loadSong(nextPlayable(currentIndex, 'prev'));
+    audio.play(); isPlaying = true; setPlayIcon();
   });
 
   $('#player-next').click(function() {
-    loadSong((currentIndex + 1) % songs.length);
-    if (isPlaying) { audio.play(); setPlayIcon(); }
+    loadSong(nextPlayable(currentIndex, 'next'));
+    audio.play(); isPlaying = true; setPlayIcon();
   });
 
   $(audio).on('timeupdate', function() {
@@ -92,9 +122,24 @@
   });
 
   $(audio).on('ended', function() {
-    loadSong((currentIndex + 1) % songs.length);
-    audio.play();
-    setPlayIcon();
+    if (playMode === 2) {
+      // 单曲循环
+      audio.currentTime = 0;
+      audio.play();
+    } else if (playMode === 1) {
+      // 随机播放
+      var playable = [];
+      $.each(songs, function(i, s) { if (!s.locked) playable.push(i); });
+      var next = playable[Math.floor(Math.random() * playable.length)];
+      loadSong(next);
+      audio.play();
+      setPlayIcon();
+    } else {
+      // 顺序循环
+      loadSong(nextPlayable(currentIndex, 'next'));
+      audio.play();
+      setPlayIcon();
+    }
   });
 
   $('.player-progress').click(function(e) {
@@ -104,7 +149,9 @@
   });
 
   $(document).on('click', '.player-list-item', function() {
-    loadSong(parseInt($(this).data('index')));
+    var idx = parseInt($(this).data('index'));
+    if (songs[idx].locked) return;
+    loadSong(idx);
     audio.play();
     isPlaying = true;
     setPlayIcon();
