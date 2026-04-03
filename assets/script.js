@@ -273,18 +273,18 @@ jQuery(document).ready(function($) {
 
   // 专辑曲目数据（后续替换真实链接）
   var albumTracks = [
-    { title: '待解锁 敬请期待',    audioIndex: 0,  qqUrl: null,                                                              wyyUrl: null, bvid: null, biliUrl: null },
-    { title: '和自己对话',         audioIndex: 1,  qqUrl: 'https://y.qq.com/',                                               wyyUrl: null, bvid: null, biliUrl: null },
-    { title: '样（YOUNG）',        audioIndex: 2,  qqUrl: 'https://y.qq.com/n/ryqq_v2/songDetail/0039tIo02YCRDk',           wyyUrl: null, bvid: 'BV1DT4y1U7qk', biliUrl: 'https://www.bilibili.com/video/BV1DT4y1U7qk' },
-    { title: '待解锁 敬请期待',    audioIndex: 3,  qqUrl: null,                                                              wyyUrl: null, bvid: null, biliUrl: null },
-    { title: 'Fall',               audioIndex: 4,  qqUrl: 'https://y.qq.com/',                                               wyyUrl: null, bvid: null, biliUrl: null },
-    { title: 'HKVISION LAND',      audioIndex: 5,  qqUrl: 'https://y.qq.com/',                                               wyyUrl: null, bvid: null, biliUrl: null },
-    { title: '此刻回望',           audioIndex: 6,  qqUrl: 'https://y.qq.com/',                                               wyyUrl: null, bvid: null, biliUrl: null },
-    { title: '嘿，你还好吗',       audioIndex: 7,  qqUrl: 'https://y.qq.com/',                                               wyyUrl: null, bvid: null, biliUrl: null },
-    { title: '记录你所给我的一切', audioIndex: 8,  qqUrl: 'https://y.qq.com/',                                               wyyUrl: null, bvid: null, biliUrl: null },
-    { title: '此刻着陆',           audioIndex: 9,  qqUrl: 'https://y.qq.com/',                                               wyyUrl: null, bvid: null, biliUrl: null },
-    { title: '同乘',               audioIndex: 10, qqUrl: 'https://y.qq.com/',                                               wyyUrl: null, bvid: null, biliUrl: null },
-    { title: '给未来的自己',       audioIndex: 11, qqUrl: 'https://y.qq.com/',                                               wyyUrl: null, bvid: null, biliUrl: null }
+    { title: '待解锁 敬请期待',    audioIndex: 0,  qqUrl: null,                                                              wyyUrl: null, bvid: null,            credit: '' },
+    { title: '和自己对话',         audioIndex: 1,  qqUrl: 'https://y.qq.com/',                                               wyyUrl: null, bvid: 'BV1La4y1k73i',  credit: 'Cover 林墨' },
+    { title: '样（YOUNG）',        audioIndex: 2,  qqUrl: 'https://y.qq.com/n/ryqq_v2/songDetail/0039tIo02YCRDk',           wyyUrl: null, bvid: 'BV1DT4y1U7qk',  credit: 'Cover TFBOYS' },
+    { title: '待解锁 敬请期待',    audioIndex: 3,  qqUrl: null,                                                              wyyUrl: null, bvid: null,            credit: '' },
+    { title: 'Fall',               audioIndex: 4,  qqUrl: 'https://y.qq.com/',                                               wyyUrl: null, bvid: 'BV1hJ4m187kE',  credit: 'Cover 易烊千玺' },
+    { title: 'HKVISION LAND',      audioIndex: 5,  qqUrl: 'https://y.qq.com/',                                               wyyUrl: null, bvid: 'BV1xGUPBrEE2',  credit: '作曲：黄凯/墨绝音' },
+    { title: '此刻回望',           audioIndex: 6,  qqUrl: 'https://y.qq.com/',                                               wyyUrl: null, bvid: null,            credit: '作曲：黄凯/墨绝音' },
+    { title: '嘿，你还好吗',       audioIndex: 7,  qqUrl: 'https://y.qq.com/',                                               wyyUrl: null, bvid: 'BV1Y2421c7zN',  credit: 'Cover 钟汉良' },
+    { title: '记录你所给我的一切', audioIndex: 8,  qqUrl: 'https://y.qq.com/',                                               wyyUrl: null, bvid: 'BV1kTU9YmEPU',  credit: 'Cover 王俊凯' },
+    { title: '此刻着陆',           audioIndex: 9,  qqUrl: 'https://y.qq.com/',                                               wyyUrl: null, bvid: 'BV1dBGFz6EHa',  credit: '作词：黄凯&emsp;作曲：Sugar' },
+    { title: '同乘',               audioIndex: 10, qqUrl: 'https://y.qq.com/',                                               wyyUrl: null, bvid: 'BV1VnS2YSECh',  credit: 'Cover 易烊千玺' },
+    { title: '给未来的自己',       audioIndex: 11, qqUrl: 'https://y.qq.com/',                                               wyyUrl: null, bvid: 'BV1jW421P7uY',  credit: 'Cover 梁静茹' }
   ];
 
   // 渲染专辑曲目列表
@@ -300,9 +300,10 @@ jQuery(document).ready(function($) {
         '</li>'
       );
     } else {
-      var titleHtml = t.qqUrl
+      var titleText = t.qqUrl
         ? '<a class="album-track-link" href="' + t.qqUrl + '" target="_blank">' + t.title + '</a>'
         : (t.wyyUrl ? '<a class="album-track-link" href="' + t.wyyUrl + '" target="_blank">' + t.title + '</a>' : t.title);
+      var titleHtml = titleText + (t.credit ? '<br><small style="color:#aaa;font-size:0.8em">' + t.credit + '</small>' : '');
       var actions = '<button class="btn-play-track" data-audio-index="' + t.audioIndex + '">&#9654;</button>';
       if (t.bvid) actions += '<button class="btn-mv" data-bvid="' + t.bvid + '" data-title="' + t.title + '"><i class="fa fa-film"></i> MV</button>';
       $('#album-track-list').append(
