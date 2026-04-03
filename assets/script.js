@@ -1,4 +1,35 @@
- jQuery(document).ready(function($) {
+// Welcome overlay
+(function() {
+  var overlay = document.getElementById('welcome-overlay');
+  if (!overlay) return;
+  if (sessionStorage.getItem('hkv_welcomed')) {
+    overlay.classList.add('done');
+    return;
+  }
+  document.body.style.overflow = 'hidden';
+  overlay.addEventListener('click', function() {
+    var lLeft  = document.getElementById('logo-half-left');
+    var lRight = document.getElementById('logo-half-right');
+    var hint   = document.getElementById('welcome-hint');
+    var sub    = document.getElementById('welcome-sub');
+    if (lLeft)  { lLeft.style.opacity  = '1'; lLeft.style.animation  = 'none'; }
+    if (lRight) { lRight.style.opacity = '1'; lRight.style.animation = 'none'; }
+    if (hint)   { hint.style.opacity   = '1'; hint.style.animation   = 'none'; }
+    if (sub)    { sub.style.opacity    = '1'; sub.style.animation    = 'none'; }
+    void overlay.offsetWidth; // force reflow so browser commits opacity:1 before transition
+    // Text elements: drive fade-out via inline style (inline opacity overrides CSS rules)
+    if (hint) hint.style.opacity = '0';
+    if (sub)  sub.style.opacity  = '0';
+    overlay.classList.add('open');
+    setTimeout(function() {
+      overlay.classList.add('done');
+      document.body.style.overflow = '';
+      sessionStorage.setItem('hkv_welcomed', '1');
+    }, 980);
+  });
+})();
+
+jQuery(document).ready(function($) {
 
   // 音乐播放器
   var songs = [
