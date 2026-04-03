@@ -148,6 +148,7 @@ p{font-size:1em;line-height: 1.7em; margin-bottom: 1.7em;}
   -webkit-backdrop-filter: blur(8px);
   border: none !important;
   box-shadow: 0 4px 20px rgba(80,80,180,0.1);
+  min-height: 70px;
 }
 .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:hover, .navbar-default .navbar-nav>.active>a:focus{background: none;color: #21abca;}
 
@@ -243,6 +244,7 @@ p{font-size:1em;line-height: 1.7em; margin-bottom: 1.7em;}
     border-radius:12px;
     box-shadow:-5px 8px 24px rgba(0,0,0,0.22);
   }
+  #works figure:nth-child(6){margin-bottom: 3em;}
 }
 /*works*/
 
@@ -260,8 +262,14 @@ p{font-size:1em;line-height: 1.7em; margin-bottom: 1.7em;}
 	font-size:0;
 	overflow:hidden;
 }
-.highlight-info{ background:url(../images/bg1.jpg) center fixed; background-size: cover; color:#fff;}
-.highlight-info .overlay{background: rgba(33,171,202,0.1);}
+.highlight-info{
+  background:
+    linear-gradient(rgba(15,10,50,0.78), rgba(15,10,50,0.78)),
+    url('../images/monogram/v3_full.jpg') repeat;
+  background-size: auto, 300px auto;
+  color:#fff;
+}
+.highlight-info .overlay{background: none;}
 .highlight-info h4{color: #fff;margin:0.5em 0 0 0;}
 /*about us*/
 
@@ -514,7 +522,7 @@ body { padding-bottom: 56px; }
 	.navbar-brand{padding-top: 11px;}
 	.process ul li{margin:0 0.5em; }
 	
-	.grid figure h2{font: 700 1.5em Roboto,Arial,Helvetica;}
+	.grid figure h2{font-size: 1.5em;}
 	figure.effect-oscar figcaption{padding: 12%;}
 	figure.effect-oscar figcaption::before,figure.effect-chico figcaption::before{top: 20px;right: 20px;bottom: 20px;left: 20px;}
 
@@ -548,7 +556,7 @@ body { padding-bottom: 56px; }
 	h2.text-center{text-align: left;font-size: 1.7em;}
 	h4 {font: 300 1.2em Roboto,Arial,Helvetica;}
 	#partners h2{padding: 0 1em;} 
-	#works {padding-top: 5em;}
+	#works {padding-top: 7em;}
 
 	.partners{display: block;float: left;}
 	.partners img{width: 120px;}
@@ -558,6 +566,8 @@ body { padding-bottom: 56px; }
 	.about.spacer{padding-left: 2em;padding-right: 2em;}
 	.spacer{padding:2em 0 0 0;}
 	.process ul li{margin-bottom: 1em;}
+	#connect-list{display:flex;flex-wrap:wrap;justify-content:center;max-width:26em;margin:0 auto;}
+	#connect-list li{margin-bottom:1.5em;}
 
 	.highlight-info .overlay{padding-bottom: 2em;}
 
