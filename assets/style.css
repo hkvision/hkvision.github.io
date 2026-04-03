@@ -321,7 +321,8 @@ body { padding-bottom: 56px; }
   background-color: #3d1f00;
   border-top: none;
   position: relative;
-  color: rgba(255,220,160,0.8);
+  color: rgba(255,240,210,0.95);
+  text-shadow: 0 1px 4px rgba(0,0,0,0.6);
   font-size: 0.88em;
   padding: 2em 0 1.4em;
 }
