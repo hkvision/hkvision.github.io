@@ -119,6 +119,22 @@ p{font-size:1em;line-height: 1.7em; margin-bottom: 1.7em;}
 @keyframes flowGradient{0%{background-position:0% 0%}100%{background-position:100% 0%}}
 .navbar-nav > li > a{font-size: 1em;line-height: 3.6em; color: #1a1a3e !important;}
 .navbar-nav > li > a:hover { color: #7c3aed !important; }
+#nav-logo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: block;
+  line-height: 0;
+}
+#nav-logo img { height: 38px; width: auto; transition: filter 0.4s; }
+#nav-logo img.logo-easter-pulse {
+  animation: logoPulse 2.4s ease-in-out infinite;
+}
+@keyframes logoPulse {
+  0%,100% { filter: var(--logo-filter); }
+  50%      { filter: var(--logo-filter-bright); }
+}
 .navbar-fixed-top{top: 5px;}
 .navbar-inverse{background: #111;}
 #top-nav {

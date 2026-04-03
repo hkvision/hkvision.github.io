@@ -1,3 +1,37 @@
+// Nav logo easter eggs
+(function() {
+  var variants = [
+    // null = default, no effect (weighted higher — 5 out of 11)
+    null, null, null, null, null,
+    // Violet — blue +60° → purple logo + purple glow
+    { f: 'hue-rotate(60deg) saturate(1.3) drop-shadow(0 0 7px rgba(140,50,220,0.8))',
+      fb: 'hue-rotate(60deg) saturate(1.5) drop-shadow(0 0 14px rgba(170,80,255,1))', pulse: true },
+    // Rose — blue +90° → pink-red logo + rose glow
+    { f: 'hue-rotate(90deg) saturate(1.4) drop-shadow(0 0 7px rgba(220,50,130,0.8))',
+      fb: 'hue-rotate(90deg) saturate(1.6) drop-shadow(0 0 14px rgba(255,80,160,1))', pulse: true },
+    // Gold — blue +200° → orange-gold logo + gold glow
+    { f: 'hue-rotate(200deg) saturate(2) brightness(1.05) drop-shadow(0 0 7px rgba(210,140,0,0.8))',
+      fb: 'hue-rotate(200deg) saturate(2.2) brightness(1.1) drop-shadow(0 0 14px rgba(255,175,0,1))', pulse: true },
+    // Forest green — blue +270° → green logo + green glow
+    { f: 'hue-rotate(270deg) saturate(1.3) drop-shadow(0 0 7px rgba(30,160,80,0.8))',
+      fb: 'hue-rotate(270deg) saturate(1.5) drop-shadow(0 0 14px rgba(50,210,100,1))', pulse: true },
+    // Cyan — blue +330° → electric cyan logo + cyan glow
+    { f: 'hue-rotate(330deg) saturate(1.4) drop-shadow(0 0 7px rgba(0,185,220,0.8))',
+      fb: 'hue-rotate(330deg) saturate(1.6) drop-shadow(0 0 14px rgba(0,225,255,1))', pulse: true },
+    // Silver — desaturated + cool white glow
+    { f: 'grayscale(0.8) brightness(1.05) drop-shadow(0 0 6px rgba(160,185,230,0.8))',
+      fb: 'grayscale(0.8) brightness(1.2) drop-shadow(0 0 12px rgba(200,220,255,1))', pulse: true },
+  ];
+  var pick = variants[Math.floor(Math.random() * variants.length)];
+  if (!pick) return;
+  var img = document.getElementById('nav-logo') && document.getElementById('nav-logo').querySelector('img');
+  if (!img) return;
+  img.style.setProperty('--logo-filter', pick.f);
+  img.style.setProperty('--logo-filter-bright', pick.fb);
+  img.style.filter = pick.f;
+  if (pick.pulse) img.classList.add('logo-easter-pulse');
+})();
+
 // Welcome overlay
 (function() {
   var overlay = document.getElementById('welcome-overlay');
