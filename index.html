@@ -6,9 +6,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>HKVISION STUDIO</title>
 
-<!-- Google fonts -->
-<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,700' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Ma+Shan+Zheng&display=swap' rel='stylesheet'>
+<!-- Preconnect for external resources -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://maxcdn.bootstrapcdn.com">
+
+<!-- Preload critical welcome overlay assets -->
+<link rel="preload" href="images/HKVISIONLAND.png" as="image">
+<link rel="preload" href="images/monogram/v2_full.webp" as="image">
+
+<!-- Google fonts (merged into one request) -->
+<link href='https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Jost:wght@300;400;500&family=Ma+Shan+Zheng&display=swap' rel='stylesheet'>
 
 <!-- font awesome -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -99,7 +107,7 @@
 <!-- works -->
 <div id="works"  class=" clearfix grid"> 
      <figure class="effect-oscar  wowload fadeInUp">
-        <img src="images/bg/2.jpg" alt="img01"/>
+        <picture><source srcset="images/bg/2.webp" type="image/webp"/><img src="images/bg/2.jpg" alt="img01"/></picture>
         <figcaption>
             <h2>此刻着陆</h2>
             <br><br>
@@ -108,7 +116,7 @@
         </figcaption>
     </figure>
      <figure class="effect-oscar  wowload fadeInUp">
-        <img src="images/bg/1.jpg" alt="img01"/>
+        <picture><source srcset="images/bg/1.webp" type="image/webp"/><img src="images/bg/1.jpg" alt="img01"/></picture>
         <figcaption>
             <h2>此刻主人公</h2>
             <br><br>
@@ -117,7 +125,7 @@
         </figcaption>
     </figure>
      <figure class="effect-oscar  wowload fadeInUp">
-        <img src="images/bg/4.jpg" alt="img01"/>
+        <picture><source srcset="images/bg/4.webp" type="image/webp"/><img src="images/bg/4.jpg" alt="img01" loading="lazy"/></picture>
         <figcaption>
             <h2>此刻回望</h2>
             <br><br>
@@ -126,7 +134,7 @@
         </figcaption>
     </figure>
      <figure class="effect-oscar  wowload fadeIn">
-        <img src="images/bg/3.jpg" alt="img01"/>
+        <picture><source srcset="images/bg/3.webp" type="image/webp"/><img src="images/bg/3.jpg" alt="img01" loading="lazy"/></picture>
         <figcaption>
             <h2>此刻纪念</h2>
             <br><br>
@@ -136,7 +144,7 @@
     </figure>
 
     <figure class="effect-oscar  wowload fadeInUp">
-        <img src="images/bg/5.jpg" alt="img01"/>
+        <picture><source srcset="images/bg/5.webp" type="image/webp"/><img src="images/bg/5.jpg" alt="img01" loading="lazy"/></picture>
         <figcaption>
             <h2>此刻起舞</h2>
             <br><br>
@@ -146,7 +154,7 @@
     </figure>
 
      <figure class="effect-oscar  wowload fadeInUp">
-        <img src="images/bg/6.jpg" alt="img01"/>
+        <picture><source srcset="images/bg/6.webp" type="image/webp"/><img src="images/bg/6.jpg" alt="img01" loading="lazy"/></picture>
         <figcaption>
             <h2>此刻同乘</h2>
             <br><br>
@@ -400,24 +408,22 @@
 </div>
 
 <!-- jquery -->
-<script src="assets/jquery.js"></script>
+<script src="assets/jquery.js" defer></script>
 
 <!-- wow script -->
-<script src="assets/wow/wow.min.js"></script>
-
+<script src="assets/wow/wow.min.js" defer></script>
 
 <!-- boostrap -->
-<script src="assets/bootstrap/js/bootstrap.js" type="text/javascript"></script>
+<script src="assets/bootstrap/js/bootstrap.js" defer></script>
 
 <!-- jquery mobile -->
-<script src="assets/mobile/touchSwipe.min.js"></script>
-<script src="assets/respond/respond.js"></script>
+<script src="assets/mobile/touchSwipe.min.js" defer></script>
 
 <!-- gallery -->
-<script src="assets/gallery/jquery.blueimp-gallery.min.js"></script>
+<script src="assets/gallery/jquery.blueimp-gallery.min.js" defer></script>
 
 <!-- custom script -->
-<script src="assets/script.js"></script>
+<script src="assets/script.js" defer></script>
 
 </body>
 </html>
