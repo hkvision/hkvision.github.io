@@ -1,5 +1,6 @@
 body {	color:#666;	font:300 15px/15px Roboto,Arial,Helvetica;background-color:#fff;-webkit-font-smoothing:antialiased;}
 .grid figure picture { display:block; width:100%; }
+.grid figure h2 { font-family: 'Noto Serif SC', serif; font-weight: 700; letter-spacing: 0.05em; }
 
 /* Welcome overlay */
 #welcome-overlay { position:fixed; inset:0; z-index:9999; cursor:pointer; overflow:hidden; }
