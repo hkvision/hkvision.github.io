@@ -294,7 +294,7 @@ jQuery(document).ready(function($) {
     { title: '待解锁 敬请期待',    audioIndex: 0,  qqUrl: null,                                                              wyyUrl: null, bvid: null,            credit: '',                          cover: null },
     { title: '和自己对话',         audioIndex: 1,  qqUrl: 'https://y.qq.com/n/ryqq_v2/songDetail/000nJmpI403SOX',           wyyUrl: null, bvid: 'BV1La4y1k73i',  credit: 'Cover 林墨',                cover: 'images/covers/02.webp' },
     { title: '样（YOUNG）',        audioIndex: 2,  qqUrl: 'https://y.qq.com/n/ryqq_v2/songDetail/0039tIo02YCRDk',           wyyUrl: null, bvid: 'BV1DT4y1U7qk',  credit: 'Cover TFBOYS',              cover: 'images/covers/03.webp' },
-    { title: 'HKVISION LAND',      audioIndex: 3,  qqUrl: 'https://y.qq.com/n/ryqq_v2/songDetail/003e7tMZ37TOlz',           wyyUrl: null, bvid: 'BV1xGUPBrEE2',  credit: '作曲：黄凯/墨绝音',         cover: 'images/covers/06.webp' },
+    { title: 'HKVISION LAND',      audioIndex: 3,  qqUrl: 'https://y.qq.com/n/ryqq_v2/songDetail/003e7tMZ37TOlz',           wyyUrl: null, bvid: 'BV1xGUPBrEE2',  credit: '作曲：黄凯/墨绝音',         cover: 'images/covers/04.webp' },
     { title: 'Fall',               audioIndex: 4,  qqUrl: 'https://y.qq.com/n/ryqq_v2/songDetail/003NneXk1XQDxE',           wyyUrl: null, bvid: 'BV1hJ4m187kE',  credit: 'Cover 易烊千玺',            cover: 'images/covers/05.webp' },
     { title: '待解锁 敬请期待',    audioIndex: 5,  qqUrl: null,                                                              wyyUrl: null, bvid: null,            credit: '',                          cover: null },
     { title: '此刻回望',           audioIndex: 6,  qqUrl: 'https://y.qq.com/n/ryqq_v2/songDetail/0021NVdb2kTTug',           wyyUrl: null, bvid: null,            credit: '作曲：黄凯/墨绝音',         cover: 'images/covers/07.webp' },
@@ -658,6 +658,147 @@ wow.init();
 
 
 
+
+// ── 抽卡系统 ──
+(function() {
+  var rarityLabel = { R:'R', SR:'SR', SSR:'SSR' };
+  // 稀有度权重：数值越大越容易抽到
+  var rarityWeight = { R: 60, SR: 30, SSR: 10 };
+  var allCards = [
+    { img:'images/samples/kaihuang.jpg',      rarity:'SSR' },
+    { img:'images/samples/hk.jpg',            rarity:'SR'  },
+    { img:'images/samples/chongyang.jpg',     rarity:'SR'  },
+    { img:'images/samples/0903.jpg',          rarity:'R'   },
+    { img:'images/samples/1014433248.jpg',    rarity:'R'   },
+    { img:'images/samples/1375092296.jpg',    rarity:'R'   },
+    { img:'images/samples/1850647824.jpg',    rarity:'R'   },
+    { img:'images/samples/hole.jpg',          rarity:'R'   },
+    { img:'images/samples/kaihuang photo.jpg',rarity:'R'   }
+  ];
+  var MAX_DRAWS = 10;
+  var rarityOrder = { SSR: 0, SR: 1, R: 2 };
+  var drawCount = 0;
+  var collected = {}; // key: img → { rarity, count }
+
+  // 有放回加权随机
+  function weightedPick() {
+    var total = allCards.reduce(function(s, c) { return s + rarityWeight[c.rarity]; }, 0);
+    var r = Math.random() * total;
+    var cum = 0;
+    for (var i = 0; i < allCards.length; i++) {
+      cum += rarityWeight[allCards[i].rarity];
+      if (r < cum) return allCards[i];
+    }
+    return allCards[allCards.length - 1];
+  }
+
+  function renderDeck() {
+    var $stack = $('#draw-deck-stack');
+    $stack.empty();
+    var rots = [-10, -5, 0, 5, 10];
+    var yOff = [4, 2, 0, 2, 4];
+    for (var i = 0; i < 5; i++) {
+      $('<div class="draw-card-back"></div>')
+        .css('transform', 'rotate(' + rots[i] + 'deg) translateY(' + yOff[i] + 'px)')
+        .css('z-index', i)
+        .appendTo($stack);
+    }
+    $('#draw-deck-count').text('');
+  }
+
+  function initDraw() {
+    drawCount = 0;
+    collected = {};
+    $('#draw-card-slot').html('<div class="draw-hint">✦<br>揭开你的<br>此刻主人公</div>');
+    $('#draw-rarity-badge').text('').removeClass('visible draw-rarity-R draw-rarity-SR draw-rarity-SSR');
+    $('#draw-collection').empty();
+    $('#draw-counter').text('已抽 0 / ' + MAX_DRAWS + ' · 拥有 0 / ' + allCards.length);
+    $('#draw-btn').prop('disabled', false).html('<img src="images/HKVISIONLAND.png" class="draw-btn-logo">');
+    renderDeck();
+  }
+
+  $('#photo-draw-modal').on('show.bs.modal', function() { initDraw(); });
+
+  // 收藏大图 lightbox
+  var $lb = $('<div id="draw-lightbox"><img id="draw-lb-img"><div id="draw-lb-rarity"></div></div>').appendTo('body');
+  $lb.on('click', function() { $lb.removeClass('active'); });
+  $(document).on('click', '.draw-thumb-wrap', function() {
+    var src = $(this).find('img').attr('src');
+    var rarity = $(this).data('rarity');
+    $('#draw-lb-img').attr('src', src);
+    $('#draw-lb-rarity').text(rarityLabel[rarity]).attr('class', 'draw-lb-rarity-' + rarity);
+    $lb.addClass('active');
+  });
+
+  $(document).on('click', '#draw-btn', function() {
+    var $btn = $(this);
+    $btn.prop('disabled', true);
+
+    // 1. shake deck
+    var $stack = $('#draw-deck-stack');
+    $stack.addClass('shaking');
+
+    setTimeout(function() {
+      $stack.removeClass('shaking');
+      // 2. deal top card animation
+      $stack.find('.draw-card-back').last().addClass('dealing');
+
+      setTimeout(function() {
+        var card = weightedPick();
+        drawCount++;
+        renderDeck();
+
+        // 3. reveal in slot
+        var $slot = $('#draw-card-slot');
+        $slot.empty().css('border-color', '').css('box-shadow', '');
+        $('<img class="draw-card-revealed">').attr('src', card.img).appendTo($slot);
+
+        // 4. rarity badge
+        var $badge = $('#draw-rarity-badge');
+        $badge.removeClass('visible draw-rarity-R draw-rarity-SR draw-rarity-SSR');
+        $badge.text(rarityLabel[card.rarity]).addClass('draw-rarity-' + card.rarity);
+        setTimeout(function() { $badge.addClass('visible'); }, 50);
+
+        // 5. border color by rarity
+        var colors = { R:'#3a7bd5', SR:'#8840d0', SSR:'#c8960a' };
+        $slot.css('border-color', colors[card.rarity]);
+        if (card.rarity === 'SSR') $slot.css('box-shadow', '0 0 24px rgba(200,150,10,0.6)');
+        else if (card.rarity === 'SR') $slot.css('box-shadow', '0 0 14px rgba(136,64,208,0.4)');
+
+        // 6. 收藏：重复则更新次数，否则新增
+        if (collected[card.img]) {
+          collected[card.img].count++;
+          $('#draw-collection').find('[data-img="' + card.img + '"] .draw-thumb-count')
+            .text('×' + collected[card.img].count);
+        } else {
+          collected[card.img] = { rarity: card.rarity, count: 1 };
+          var $wrap = $('<div class="draw-thumb-wrap">').attr('data-img', card.img).attr('data-rarity', card.rarity);
+          $('<img class="draw-thumb draw-thumb-' + card.rarity + '">')
+            .attr('src', card.img).attr('title', rarityLabel[card.rarity]).appendTo($wrap);
+          $('<span class="draw-thumb-count">').appendTo($wrap);
+          $('<span class="draw-thumb-rarity draw-thumb-rarity-' + card.rarity + '">').text(rarityLabel[card.rarity]).appendTo($wrap);
+          $('#draw-collection').append($wrap);
+          // 按稀有度排序：SSR > SR > R
+          $('#draw-collection').children('.draw-thumb-wrap').sort(function(a, b) {
+            return rarityOrder[$(a).data('rarity')] - rarityOrder[$(b).data('rarity')];
+          }).appendTo('#draw-collection');
+          setTimeout(function() { $wrap.addClass('show'); }, 50);
+        }
+
+        // 7. counter
+        var uniqueCount = Object.keys(collected).length;
+        $('#draw-counter').text('已抽 ' + drawCount + ' / ' + MAX_DRAWS + ' · 拥有 ' + uniqueCount + ' / ' + allCards.length);
+
+        // 8. 达到上限则禁用，否则重新启用
+        if (drawCount >= MAX_DRAWS) {
+          $btn.prop('disabled', true).html('✦ 此刻着陆 ✦');
+        } else {
+          setTimeout(function() { $btn.prop('disabled', false); }, 400);
+        }
+      }, 380);
+    }, 100);
+  });
+})();
 
 // 弹窗打开时禁止背景页面滚动（移动端）
 $(document).on('show.bs.modal', '.modal', function() {

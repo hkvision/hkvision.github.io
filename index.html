@@ -111,7 +111,7 @@
             <h2>此刻主人公</h2>
             <br><br>
             <p>此刻着陆宇宙🪐<br><br>
-            <a href="https://space.bilibili.com/194393064">HKVISION UNIVERSE</a></p>
+            <a href="#" data-toggle="modal" data-target="#photo-draw-modal">HKVISION UNIVERSE</a></p>
         </figcaption>
     </figure>
      <figure class="effect-oscar  wowload fadeInUp">
@@ -262,8 +262,15 @@
     </a>
   </div>
   <div class="footer-merged" id="footer">
-    <img data-src="images/musichk.png" style="height:50px;margin:0 0.8em;vertical-align:middle;opacity:0.7;"/>
-    <img data-src="images/banner.png" style="height:62px;margin:0 0.8em;vertical-align:middle;opacity:0.7;"/><br><br>
+    <div class="footer-logos">
+      <img data-src="images/logos/1.webp" alt=""/>
+      <img data-src="images/logos/2.webp" alt=""/>
+      <img data-src="images/logos/3.webp" alt=""/>
+      <img data-src="images/logos/4.webp" alt=""/>
+      <img data-src="images/logos/5.webp" alt=""/>
+      <img data-src="images/logos/6.webp" alt=""/>
+      <img data-src="images/logos/7.webp" alt=""/>
+    </div>
     © 2017–∞ Kai Huang @HKVISION STUDIO. All Rights Reserved.
   </div>
 </div>
@@ -375,6 +382,31 @@
       <div class="modal-body" style="padding:0">
         <ul class="album-track-list" id="album-track-list"></ul>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- photo draw modal -->
+<div id="photo-draw-modal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-md" role="document">
+    <div class="modal-content draw-mc">
+      <button type="button" class="close draw-mc-close" data-dismiss="modal">&times;</button>
+      <div class="draw-title">HKVISION UNIVERSE</div>
+      <div class="draw-stage">
+        <div class="draw-result-area">
+          <div class="draw-card-slot" id="draw-card-slot">
+            <div class="draw-hint">✦<br>揭开你的<br>此刻主人公</div>
+          </div>
+          <div class="draw-rarity-badge" id="draw-rarity-badge"></div>
+          <button class="draw-btn" id="draw-btn"><img src="images/HKVISIONLAND.png" class="draw-btn-logo"></button>
+        </div>
+        <div class="draw-deck-area">
+          <div class="draw-deck-stack" id="draw-deck-stack"></div>
+          <div class="draw-deck-count" id="draw-deck-count"></div>
+          <span class="draw-counter" id="draw-counter"></span>
+        </div>
+      </div>
+      <div class="draw-collection" id="draw-collection"></div>
     </div>
   </div>
 </div>
