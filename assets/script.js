@@ -97,9 +97,9 @@ jQuery(document).ready(function($) {
     { title: '待解锁 敬请期待',        file: '',              locked: true },
     { title: '和自己对话',             file: 'audio/02.mp3' },
     { title: '样（YOUNG）',            file: 'audio/03.mp3' },
-    { title: '待解锁 敬请期待',        file: '',              locked: true },
-    { title: 'Fall',                   file: 'audio/05.mp3' },
     { title: 'HKVISION LAND',          file: 'audio/06.wav' },
+    { title: 'Fall',                   file: 'audio/05.mp3' },
+    { title: '待解锁 敬请期待',        file: '',              locked: true },
     { title: '此刻回望',               file: 'audio/07.mp3' },
     { title: '嘿，你还好吗',           file: 'audio/08.mp3' },
     { title: '记录你所给我的一切',     file: 'audio/09.mp3' },
@@ -172,6 +172,7 @@ jQuery(document).ready(function($) {
 
   function setPlayIcon() {
     $('#player-play i').attr('class', 'fa fa-pause');
+    $('.player-list-icon').attr('class', 'fa fa-play player-list-icon');
     $('.player-list-item[data-index="' + currentIndex + '"] .player-list-icon')
       .attr('class', 'fa fa-pause player-list-icon');
   }
@@ -238,10 +239,27 @@ jQuery(document).ready(function($) {
     }
   });
 
-  $('.player-progress').click(function(e) {
-    if (audio.duration) {
-      audio.currentTime = (e.offsetX / $(this).width()) * audio.duration;
-    }
+  var isSeeking = false;
+  function seekToX(x, el) {
+    if (!audio.duration) return;
+    var rect = el.getBoundingClientRect();
+    var ratio = Math.min(1, Math.max(0, (x - rect.left) / rect.width));
+    audio.currentTime = ratio * audio.duration;
+    $('.player-progress-bar').css('width', (ratio * 100) + '%');
+  }
+  $('.player-progress').on('mousedown touchstart', function(e) {
+    isSeeking = true;
+    var x = e.type === 'touchstart' ? e.originalEvent.touches[0].clientX : e.clientX;
+    seekToX(x, this);
+  });
+  $(document).on('mousemove touchmove', function(e) {
+    if (!isSeeking) return;
+    var el = $('.player-progress')[0];
+    var x = e.type === 'touchmove' ? e.originalEvent.touches[0].clientX : e.clientX;
+    seekToX(x, el);
+  });
+  $(document).on('mouseup touchend', function() {
+    isSeeking = false;
   });
 
   $(document).on('click', '.player-list-item', function() {
@@ -276,9 +294,9 @@ jQuery(document).ready(function($) {
     { title: '待解锁 敬请期待',    audioIndex: 0,  qqUrl: null,                                                              wyyUrl: null, bvid: null,            credit: '',                          cover: null },
     { title: '和自己对话',         audioIndex: 1,  qqUrl: 'https://y.qq.com/n/ryqq_v2/songDetail/000nJmpI403SOX',           wyyUrl: null, bvid: 'BV1La4y1k73i',  credit: 'Cover 林墨',                cover: 'images/covers/02.webp' },
     { title: '样（YOUNG）',        audioIndex: 2,  qqUrl: 'https://y.qq.com/n/ryqq_v2/songDetail/0039tIo02YCRDk',           wyyUrl: null, bvid: 'BV1DT4y1U7qk',  credit: 'Cover TFBOYS',              cover: 'images/covers/03.webp' },
-    { title: '待解锁 敬请期待',    audioIndex: 3,  qqUrl: null,                                                              wyyUrl: null, bvid: null,            credit: '',                          cover: null },
+    { title: 'HKVISION LAND',      audioIndex: 3,  qqUrl: 'https://y.qq.com/n/ryqq_v2/songDetail/003e7tMZ37TOlz',           wyyUrl: null, bvid: 'BV1xGUPBrEE2',  credit: '作曲：黄凯/墨绝音',         cover: 'images/covers/06.webp' },
     { title: 'Fall',               audioIndex: 4,  qqUrl: 'https://y.qq.com/n/ryqq_v2/songDetail/003NneXk1XQDxE',           wyyUrl: null, bvid: 'BV1hJ4m187kE',  credit: 'Cover 易烊千玺',            cover: 'images/covers/05.webp' },
-    { title: 'HKVISION LAND',      audioIndex: 5,  qqUrl: 'https://y.qq.com/n/ryqq_v2/songDetail/003e7tMZ37TOlz',           wyyUrl: null, bvid: 'BV1xGUPBrEE2',  credit: '作曲：黄凯/墨绝音',         cover: 'images/covers/06.webp' },
+    { title: '待解锁 敬请期待',    audioIndex: 5,  qqUrl: null,                                                              wyyUrl: null, bvid: null,            credit: '',                          cover: null },
     { title: '此刻回望',           audioIndex: 6,  qqUrl: 'https://y.qq.com/n/ryqq_v2/songDetail/0021NVdb2kTTug',           wyyUrl: null, bvid: null,            credit: '作曲：黄凯/墨绝音',         cover: 'images/covers/07.webp' },
     { title: '嘿，你还好吗',       audioIndex: 7,  qqUrl: null,                                                              wyyUrl: 'https://music.163.com/#/song?id=2129846924', bvid: 'BV1Y2421c7zN',  credit: 'Cover 钟汉良',  cover: 'images/covers/08.webp' },
     { title: '记录你所给我的一切', audioIndex: 8,  qqUrl: 'https://y.qq.com/n/ryqq_v2/songDetail/000CtRZg3cXzp4',           wyyUrl: null, bvid: 'BV1kTU9YmEPU',  credit: 'Cover 王俊凯',              cover: 'images/covers/09.webp' },
@@ -479,6 +497,7 @@ jQuery(document).ready(function($) {
   // 大事年表 timeline
   var timelineEvents = [
     { year: '2022', events: [
+      { date: '03.19', tag: 'music',  tagLabel: '音乐', title: '发布《样（YOUNG）》' },
       { date: '03.19', tag: 'video',  tagLabel: 'MV',   title: '发布《样（YOUNG）》MV' },
       { date: '09.04', tag: 'music',  tagLabel: '音乐', title: '发布《和自己对话》' },
     ]},
@@ -516,10 +535,10 @@ jQuery(document).ready(function($) {
       { date: '02.19', tag: 'event',  tagLabel: '封面',   title: '发布『此刻着陆』"漂浮泡沫"封面' },
       { date: '02.20', tag: 'event',  tagLabel: '封面',   title: '发布『此刻着陆』"漂浮泡沫"手绘版封面' },
       { date: '02.22', tag: 'music',  tagLabel: '音乐',   title: '发布《此刻着陆》' },
-      { date: '02.22', tag: 'event',  tagLabel: '封面',   title: '发布『此刻着陆』"昼夜双生"手绘封面' },
-      { date: '02.22', tag: 'event',  tagLabel: '封面',   title: '发布『此刻着陆』"振翅返航"歌词海报' },
+      { date: '02.22', tag: 'event',  tagLabel: '封面',   title: '发布《此刻着陆》"昼夜双生"手绘封面' },
+      { date: '02.22', tag: 'event',  tagLabel: '封面',   title: '发布《此刻着陆》"振翅返航"歌词海报' },
       { date: '02.28', tag: 'event',  tagLabel: '写真',   title: '发布『此刻着陆』航线—摇曳主人公"流苏绅士"写真' },
-      { date: '03.02', tag: 'video',  tagLabel: 'MV',     title: '发布《此刻着陆》特别祝福篇《此刻庆祝》' },
+      { date: '03.02', tag: 'event',  tagLabel: '🌟',     title: '发布《此刻着陆》特别祝福篇《此刻庆祝》' },
       { date: '03.18', tag: 'event',  tagLabel: '写真',   title: '发布『此刻着陆』航线—宫阙主人公"盛世公子"写真' },
       { date: '03.19', tag: 'event',  tagLabel: '封面',   title: '发布《记录你所给我的一切》"三生三世"单曲封面' },
       { date: '05.06', tag: 'event',  tagLabel: '写真',   title: '发布『此刻着陆』航线—光明主人公"羽翼少年"写真' },
@@ -544,18 +563,31 @@ jQuery(document).ready(function($) {
     var $tl = $('#hkv-timeline');
     if (!$tl.length) return;
     var tagClass = { music: 'tl-tag-music', video: 'tl-tag-video', event: 'tl-tag-event', origin: 'tl-tag-origin', dance: 'tl-tag-dance' };
-    $.each(timelineEvents, function(i, group) {
+    $tl.append('<div class="tl-ending tl-ending-top">此刻着陆 &nbsp;无限精彩</div>');
+    $.each(timelineEvents.slice().reverse(), function(i, group) {
+      var groupId = 'tl-group-' + group.year;
       $tl.append(
-        '<div class="tl-year-header">' +
+        '<div class="tl-year-header" data-target="#' + groupId + '">' +
           '<div class="tl-year-label">' + group.year + '</div>' +
           '<div class="tl-year-line"></div>' +
+          '<span class="tl-toggle"><i class="fa fa-chevron-up"></i></span>' +
         '</div>'
       );
-      var lastDate = null;
+      var $group = $('<div class="tl-group" id="' + groupId + '"></div>');
+      var dateOrder = [], byDate = {};
       $.each(group.events, function(j, e) {
+        if (!byDate[e.date]) { byDate[e.date] = []; dateOrder.push(e.date); }
+        byDate[e.date].push(e);
+      });
+      var sortedEvents = [];
+      $.each(dateOrder.slice().reverse(), function(j, d) {
+        $.each(byDate[d], function(k, e) { sortedEvents.push(e); });
+      });
+      var lastDate = null;
+      $.each(sortedEvents, function(j, e) {
         var showDate = e.date !== lastDate;
         lastDate = e.date;
-        $tl.append(
+        $group.append(
           '<div class="tl-item">' +
             '<div class="tl-date">' + (showDate ? e.date : '') + '</div>' +
             '<div class="tl-dot"></div>' +
@@ -567,9 +599,17 @@ jQuery(document).ready(function($) {
           '</div>'
         );
       });
+      $tl.append($group);
+    });
+    $tl.on('click', '.tl-year-header', function() {
+      var $header = $(this);
+      var $group = $($header.data('target'));
+      var collapsed = $group.hasClass('tl-collapsed');
+      $group.toggleClass('tl-collapsed');
+      $header.find('.fa').toggleClass('fa-chevron-up', collapsed).toggleClass('fa-chevron-down', !collapsed);
     });
     $tl.append(
-      '<div class="tl-ending">此刻着陆 &nbsp;无限精彩</div>'
+      '<div class="tl-ending">HKVISION LAND</div>'
     );
   })();
 
