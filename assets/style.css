@@ -281,7 +281,7 @@ p{font-size:1em;line-height: 1.7em; margin-bottom: 1.7em;}
 }
 .highlight-info{
   background:
-    linear-gradient(rgba(15,10,50,0.82) 0%, rgba(35,12,2,0.92) 100%),
+    linear-gradient(rgba(15,10,50,0.82), rgba(15,10,50,0.82)),
     url('../images/monogram/v3_full.jpg') repeat;
   background-size: auto, 300px auto;
   color:#fff;
@@ -469,6 +469,8 @@ body { padding-bottom: 56px; }
   cursor: pointer;
   max-width: 480px;
   margin: 0 auto;
+  padding: 0 4px 4px;
+  margin: 0 auto;
   user-select: none;
   -webkit-user-select: none;
 }
@@ -520,23 +522,16 @@ body { padding-bottom: 56px; }
 
 /*video modal*/
 
-.footer{
-  background:
-    linear-gradient(to bottom, rgba(40,16,0,1) 0%, rgba(40,16,0,0) 40%),
-    linear-gradient(rgba(255,230,180,0.18), rgba(255,230,180,0.18)),
-    url('../images/monogram/v1_full.webp') repeat;
-  background-size: auto, auto, 300px auto;
-  background-color: #3d1f00;
-  border-top: none;
-  position: relative;
-  color: rgba(255,240,210,0.95);
-  text-shadow: 0 1px 4px rgba(0,0,0,0.6);
-  font-size: 0.88em;
-  padding: 2em 0 1.4em;
+.footer-merged{
+  text-align: center;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  margin-top: 2em;
+  padding: 2em 0 0.8em;
+  color: rgba(255,255,255,0.35);
+  font-size: 0.82em;
+  letter-spacing: 0.04em;
 }
-.footer a{color:rgba(255,220,160,0.8);}
-.footer a:hover{color:#f5c87a;}
-.footer::before{content:'';display:block;position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,#1e3a8a,#7c3aed,#0e7490,#e879f9,#1e3a8a,#7c3aed,#0e7490);background-size:300% 100%;animation:flowGradient 6s linear infinite;box-shadow:0 0 12px rgba(180,100,255,0.5);}
+.highlight-info .overlay{padding-bottom:0.5em;}
 
 .gototop{position: fixed;bottom: 76px; right: 20px;background: rgba(0,0,0,0.5);padding: 10px;color: #fff;}
 .gototop i{line-height: 0.5em;}
@@ -594,7 +589,7 @@ body { padding-bottom: 56px; }
 	#connect-list{display:flex;flex-wrap:wrap;justify-content:center;max-width:26em;margin:0 auto;}
 	#connect-list li{margin-bottom:1.5em;}
 
-	.highlight-info .overlay{padding-bottom: 2em;}
+	.highlight-info .overlay{padding-bottom: 0.5em;}
 	.info-grid{grid-template-columns:repeat(2,1fr);gap:0.9em;}
 	.info-card{padding:1.4em 0.9em;}
 	.info-card-icon{animation-name:iconFloatSmall;margin-bottom:6px;}
@@ -604,5 +599,5 @@ body { padding-bottom: 56px; }
 
 	.grid.team div{margin: 0;padding: 0;}
 	figure.effect-chico figcaption {padding: 1.5em;}
-	.footer{margin-top: 2em;padding-bottom: 2em;}
+	.footer-merged{padding: 2em 0 1.2em;}
 }

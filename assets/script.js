@@ -372,9 +372,12 @@ jQuery(document).ready(function($) {
       $(this).attr('src', $(this).data('src')).removeAttr('data-src');
     });
   });
-  $('#covers-carousel').on('slide.bs.carousel', function() {
-    $(this).find('.cover-flip-card.flipped').removeClass('flipped');
+  $(document).on('mousedown touchstart', '#album-covers-modal .close', function(e) {
+    e.stopImmediatePropagation();
+    e.preventDefault();
+    $('#album-covers-modal').modal('hide');
   });
+
 
   // 封面弹窗
   $(document).on('click', '.btn-cover', function() {
@@ -418,19 +421,21 @@ jQuery(document).ready(function($) {
     { title: '偶像万万岁',                   credit: 'Cover 易安音乐社',              bvid: 'BV19f4y1i7Nc' },
     { title: '华为 nova6 发布会舞蹈',        credit: 'Cover 易烊千玺',                bvid: 'BV1sA4y1D7Jj' },
     { title: 'O.R.E.A',                     credit: 'Cover 钟汉良',                  bvid: 'BV1oyZZY3EF2' },
-    { title: '定格纪念',                     credit: 'Cover 易安音乐社',              bvid: 'BV1RV411Y7KX' },
-    { title: '十年之约',                     credit: 'Cover TFBOYS',                 bvid: 'BV1hF411o7YG' },
-    { title: '爱你',                         credit: 'Cover 王心凌',                  bvid: 'BV1FF41157S1' },
-    { title: '我喜欢你',                     credit: 'Cover 时代少年团',              bvid: 'BV1Mv411u7KP' },
-    { title: '绝配',                         credit: 'Cover 时代少年团',              bvid: 'BV18G4y1V7Rp' },
+    { title: 'O.O.O',                       credit: 'Cover 沈小婷',                  bvid: 'BV1Gf4y1A7RG' },
     { title: '我们一起闯',                   credit: 'Cover 林墨',                    bvid: 'BV1mV411E7yK' },
     { title: 'Here I Am',                   credit: 'Cover 井汲大翔',                bvid: 'BV1Ab411f74o' },
-    { title: 'O.O.O',                       credit: 'Cover 沈小婷',                  bvid: 'BV1Gf4y1A7RG' },
+    { title: '定格纪念',                     credit: 'Cover 易安音乐社',              bvid: 'BV1RV411Y7KX' },
+    { title: '爱你',                         credit: 'Cover 王心凌',                  bvid: 'BV1FF41157S1' },
+    { title: '十年之约',                     credit: 'Cover TFBOYS',                 bvid: 'BV1hF411o7YG' },
     { title: 'like JENNIE',                 credit: 'Cover JENNIE',                 bvid: 'BV1y4cFzZEUa' },
     { title: 'Freaky',                      credit: 'Tory Lanez',                   bvid: 'BV19A411w7nH' },
     { title: '告白气球',                     credit: '易烊千玺编舞',                  bvid: 'BV1sE411N7qp' },
+    { title: '加油！AMIGO！',               credit: 'Cover TFBOYS',                 bvid: 'BV1JA4y1f78V' },
+    { title: '我喜欢你',                     credit: 'Cover 时代少年团',              bvid: 'BV1Mv411u7KP' },
+    { title: '绝配',                         credit: 'Cover 时代少年团',              bvid: 'BV18G4y1V7Rp' },
     { title: 'My Boo',                      credit: '易烊千玺',                      bvid: 'BV1Jf4y187MV' },
-    { title: '你最最最重要',                  credit: 'Cover 张艺凡',                  bvid: 'BV1pz411i71g' }
+    { title: '你最最最重要',                  credit: 'Cover 张艺凡',                  bvid: 'BV1pz411i71g' },
+    { title: 'Ice',                         credit: 'Cover 王一博',                  bvid: 'BV1gU4y1y7jR' }
   ];
 
   // 渲染舞蹈列表
@@ -653,6 +658,17 @@ wow.init();
 
 
 
+
+// 弹窗打开时禁止背景页面滚动（移动端）
+$(document).on('show.bs.modal', '.modal', function() {
+  $(document).on('touchmove.modallock', function(e) {
+    if (!$(e.target).closest('.modal-dialog').length) {
+      e.preventDefault();
+    }
+  });
+}).on('hidden.bs.modal', '.modal', function() {
+  $(document).off('touchmove.modallock');
+});
 
 $('.carousel').swipe( {
      swipeLeft: function() {
