@@ -62,10 +62,11 @@ function loadDeferredImages() {
     return;
   }
   document.body.style.overflow = 'hidden';
-  overlay.addEventListener('click', function(e) {
+  function triggerOverlayOpen(e) {
     var logoSplit = document.getElementById('logo-split');
     if (!logoSplit || !logoSplit.contains(e.target)) return;
-    loadDeferredImages(); // start fetching content the moment user clicks
+    e.preventDefault(); // 阻止移动端 ghost click 穿透到底层
+    loadDeferredImages();
     var works = document.getElementById('works');
     if (works) works.style.pointerEvents = 'none';
     var lLeft  = document.getElementById('logo-half-left');
@@ -76,18 +77,21 @@ function loadDeferredImages() {
     if (lRight) { lRight.style.opacity = '1'; lRight.style.animation = 'none'; }
     if (hint)   { hint.style.opacity   = '1'; hint.style.animation   = 'none'; }
     if (sub)    { sub.style.opacity    = '1'; sub.style.animation    = 'none'; }
-    void overlay.offsetWidth; // force reflow so browser commits opacity:1 before transition
-    // Text elements: drive fade-out via inline style (inline opacity overrides CSS rules)
+    void overlay.offsetWidth;
     if (hint) hint.style.opacity = '0';
     if (sub)  sub.style.opacity  = '0';
     overlay.classList.add('open');
+    overlay.removeEventListener('touchend', triggerOverlayOpen);
+    overlay.removeEventListener('click',    triggerOverlayOpen);
     setTimeout(function() {
       overlay.classList.add('done');
       document.body.style.overflow = '';
       sessionStorage.setItem('hkv_welcomed', '1');
       if (works) works.style.pointerEvents = '';
     }, 980);
-  });
+  }
+  overlay.addEventListener('touchend', triggerOverlayOpen);
+  overlay.addEventListener('click',    triggerOverlayOpen);
 })();
 
 jQuery(document).ready(function($) {
@@ -124,6 +128,15 @@ jQuery(document).ready(function($) {
 
   // 播放模式：0=顺序循环 1=随机 2=单曲循环
   var playMode = 0;
+  var shuffleHistory = []; // 随机模式历史栈
+
+  function randomSong() {
+    var playable = [];
+    $.each(songs, function(i, s) { if (!s.locked) playable.push(i); });
+    var choices = playable.filter(function(i) { return i !== currentIndex; });
+    if (!choices.length) choices = playable;
+    return choices[Math.floor(Math.random() * choices.length)];
+  }
   var modes = [
     { icon: 'fa fa-repeat',  label: '顺序循环' },
     { icon: 'fa fa-random',  label: '随机播放' },
@@ -197,13 +210,26 @@ jQuery(document).ready(function($) {
   });
 
   $('#player-prev').click(function() {
-    loadSong(nextPlayable(currentIndex, 'prev'));
-    audio.play(); isPlaying = true; setPlayIcon();
+    var idx;
+    if (playMode === 1 && shuffleHistory.length > 0) {
+      idx = shuffleHistory.pop();
+    } else if (playMode === 1) {
+      idx = randomSong();
+    } else {
+      idx = nextPlayable(currentIndex, 'prev');
+    }
+    loadSong(idx); audio.play(); isPlaying = true; setPlayIcon();
   });
 
   $('#player-next').click(function() {
-    loadSong(nextPlayable(currentIndex, 'next'));
-    audio.play(); isPlaying = true; setPlayIcon();
+    var idx;
+    if (playMode === 1) {
+      shuffleHistory.push(currentIndex);
+      idx = randomSong();
+    } else {
+      idx = nextPlayable(currentIndex, 'next');
+    }
+    loadSong(idx); audio.play(); isPlaying = true; setPlayIcon();
   });
 
   $(audio).on('loadedmetadata', function() {
@@ -225,10 +251,8 @@ jQuery(document).ready(function($) {
       audio.play();
     } else if (playMode === 1) {
       // 随机播放
-      var playable = [];
-      $.each(songs, function(i, s) { if (!s.locked) playable.push(i); });
-      var next = playable[Math.floor(Math.random() * playable.length)];
-      loadSong(next);
+      shuffleHistory.push(currentIndex);
+      loadSong(randomSong());
       audio.play();
       setPlayIcon();
     } else {
@@ -351,21 +375,22 @@ jQuery(document).ready(function($) {
 
   // 专辑封面翻转
   // 封面双击/双击触摸 切换手绘版
-  var lastTapTarget = null, lastTapTime = 0;
+  // 桌面双击 / 移动端长按 翻转封面
   $(document).on('dblclick', '.cover-flip-card', function(e) {
     e.preventDefault();
     $(this).toggleClass('flipped');
   });
-  $(document).on('touchend', '.cover-flip-card', function(e) {
-    var now = Date.now();
-    if (this === lastTapTarget && now - lastTapTime < 300) {
-      e.preventDefault();
-      $(this).toggleClass('flipped');
-      lastTapTime = 0;
-    } else {
-      lastTapTarget = this;
-      lastTapTime = now;
-    }
+  var flipPressTimer = null;
+  $(document).on('touchstart', '.cover-flip-card', function(e) {
+    var $card = $(this);
+    flipPressTimer = setTimeout(function() {
+      flipPressTimer = null;
+      if (navigator.vibrate) navigator.vibrate(30);
+      $card.toggleClass('flipped');
+    }, 500);
+  });
+  $(document).on('touchend touchcancel touchmove', '.cover-flip-card', function() {
+    if (flipPressTimer) { clearTimeout(flipPressTimer); flipPressTimer = null; }
   });
   $('#album-covers-modal').on('show.bs.modal', function() {
     $(this).find('img[data-src]').each(function() {
@@ -665,20 +690,62 @@ wow.init();
   // 稀有度权重：数值越大越容易抽到
   var rarityWeight = { R: 60, SR: 30, SSR: 10 };
   var allCards = [
-    { img:'images/samples/kaihuang.jpg',      rarity:'SSR' },
-    { img:'images/samples/hk.jpg',            rarity:'SR'  },
-    { img:'images/samples/chongyang.jpg',     rarity:'SR'  },
-    { img:'images/samples/0903.jpg',          rarity:'R'   },
-    { img:'images/samples/1014433248.jpg',    rarity:'R'   },
-    { img:'images/samples/1375092296.jpg',    rarity:'R'   },
-    { img:'images/samples/1850647824.jpg',    rarity:'R'   },
-    { img:'images/samples/hole.jpg',          rarity:'R'   },
-    { img:'images/samples/kaihuang photo.jpg',rarity:'R'   }
+    // 1. 迷幻主人公【暗夜使者】
+    { img:'images/此刻主人公/1.迷幻主人公【暗夜使者】/R_1.webp',  rarity:'R'   },
+    { img:'images/此刻主人公/1.迷幻主人公【暗夜使者】/R_2.webp',  rarity:'R'   },
+    { img:'images/此刻主人公/1.迷幻主人公【暗夜使者】/R_3.webp',  rarity:'R'   },
+    { img:'images/此刻主人公/1.迷幻主人公【暗夜使者】/SR_1.webp', rarity:'SR'  },
+    { img:'images/此刻主人公/1.迷幻主人公【暗夜使者】/SR_2.webp', rarity:'SR'  },
+    { img:'images/此刻主人公/1.迷幻主人公【暗夜使者】/SSR.webp',  rarity:'SSR' },
+    // 2. 摇曳主人公【流苏绅士】
+    { img:'images/此刻主人公/2.摇曳主人公【流苏绅士】/R_1.webp',  rarity:'R'   },
+    { img:'images/此刻主人公/2.摇曳主人公【流苏绅士】/R_2.webp',  rarity:'R'   },
+    { img:'images/此刻主人公/2.摇曳主人公【流苏绅士】/R_3.webp',  rarity:'R'   },
+    { img:'images/此刻主人公/2.摇曳主人公【流苏绅士】/SR_1.webp', rarity:'SR'  },
+    { img:'images/此刻主人公/2.摇曳主人公【流苏绅士】/SR_2.webp', rarity:'SR'  },
+    { img:'images/此刻主人公/2.摇曳主人公【流苏绅士】/SSR.webp',  rarity:'SSR' },
+    // 3. 光明主人公【羽翼少年】
+    { img:'images/此刻主人公/3.光明主人公【羽翼少年】/R_1.webp',  rarity:'R'   },
+    { img:'images/此刻主人公/3.光明主人公【羽翼少年】/R_2.webp',  rarity:'R'   },
+    { img:'images/此刻主人公/3.光明主人公【羽翼少年】/R_3.webp',  rarity:'R'   },
+    { img:'images/此刻主人公/3.光明主人公【羽翼少年】/SR_1.webp', rarity:'SR'  },
+    { img:'images/此刻主人公/3.光明主人公【羽翼少年】/SR_2.webp', rarity:'SR'  },
+    { img:'images/此刻主人公/3.光明主人公【羽翼少年】/SSR.webp',  rarity:'SSR' },
+    // 4. 宫阙主人公【盛世公子】
+    { img:'images/此刻主人公/4.宫阙主人公【盛世公子】/R_1.webp',  rarity:'R'   },
+    { img:'images/此刻主人公/4.宫阙主人公【盛世公子】/R_2.webp',  rarity:'R'   },
+    { img:'images/此刻主人公/4.宫阙主人公【盛世公子】/R_3.webp',  rarity:'R'   },
+    { img:'images/此刻主人公/4.宫阙主人公【盛世公子】/SR_1.webp', rarity:'SR'  },
+    { img:'images/此刻主人公/4.宫阙主人公【盛世公子】/SR_2.webp', rarity:'SR'  },
+    { img:'images/此刻主人公/4.宫阙主人公【盛世公子】/SSR.webp',  rarity:'SSR' },
+    // 5. 古城主人公【繁花墨客】
+    { img:'images/此刻主人公/5.古城主人公【繁花墨客】/R_1.webp',  rarity:'R'   },
+    { img:'images/此刻主人公/5.古城主人公【繁花墨客】/R_2.webp',  rarity:'R'   },
+    { img:'images/此刻主人公/5.古城主人公【繁花墨客】/R_3.webp',  rarity:'R'   },
+    { img:'images/此刻主人公/5.古城主人公【繁花墨客】/SR_1.webp', rarity:'SR'  },
+    { img:'images/此刻主人公/5.古城主人公【繁花墨客】/SR_2.webp', rarity:'SR'  },
+    { img:'images/此刻主人公/5.古城主人公【繁花墨客】/SSR.webp',  rarity:'SSR' },
+    // 6. 野兽主人公【貂皮射手】
+    { img:'images/此刻主人公/6.野兽主人公【貂皮射手】/R_1.webp',  rarity:'R'   },
+    { img:'images/此刻主人公/6.野兽主人公【貂皮射手】/R_2.webp',  rarity:'R'   },
+    { img:'images/此刻主人公/6.野兽主人公【貂皮射手】/R_3.webp',  rarity:'R'   },
+    { img:'images/此刻主人公/6.野兽主人公【貂皮射手】/SR_1.webp', rarity:'SR'  },
+    { img:'images/此刻主人公/6.野兽主人公【貂皮射手】/SR_2.webp', rarity:'SR'  },
+    { img:'images/此刻主人公/6.野兽主人公【貂皮射手】/SSR.webp',  rarity:'SSR' },
   ];
   var MAX_DRAWS = 10;
   var rarityOrder = { SSR: 0, SR: 1, R: 2 };
   var drawCount = 0;
   var collected = {}; // key: img → { rarity, count }
+  var currentCharName = '';
+  var slogans = {
+    '迷幻主人公【暗夜使者】': '此刻着陆，有红与蓝的光影，也有黑与白的阴影。',
+    '摇曳主人公【流苏绅士】': '此刻着陆，驻足的每一步都金光熠熠。',
+    '光明主人公【羽翼少年】': '此刻着陆，身披一抹纯白和一束光亮。',
+    '宫阙主人公【盛世公子】': '此刻着陆，万盏灯火起舞，辉煌一方城池。',
+    '野兽主人公【貂皮射手】': '此刻着陆，伤痕带着荣光。',
+    '古城主人公【繁花墨客】': '此刻着陆，鲜花与荆棘相生相伴，共筑绚烂。'
+  };
 
   // 有放回加权随机
   function weightedPick() {
@@ -711,6 +778,7 @@ wow.init();
     collected = {};
     $('#draw-card-slot').html('<div class="draw-hint">✦<br>揭开你的<br>此刻主人公</div>');
     $('#draw-rarity-badge').text('').removeClass('visible draw-rarity-R draw-rarity-SR draw-rarity-SSR');
+    $('#draw-char-name').text('').removeClass('visible');
     $('#draw-collection').empty();
     $('#draw-counter').text('已抽 0 / ' + MAX_DRAWS + ' · 拥有 0 / ' + allCards.length);
     $('#draw-btn').prop('disabled', false).html('<img src="images/HKVISIONLAND.png" class="draw-btn-logo">');
@@ -720,19 +788,41 @@ wow.init();
   $('#photo-draw-modal').on('show.bs.modal', function() { initDraw(); });
 
   // 收藏大图 lightbox
-  var $lb = $('<div id="draw-lightbox"><img id="draw-lb-img"><div id="draw-lb-rarity"></div></div>').appendTo('body');
+  var $lb = $('<div id="draw-lightbox"><img id="draw-lb-img"><div id="draw-lb-rarity"></div><div id="draw-lb-char"></div></div>').appendTo('body');
   $lb.on('click', function() { $lb.removeClass('active'); });
   $(document).on('click', '.draw-thumb-wrap', function() {
     var src = $(this).find('img').attr('src');
     var rarity = $(this).data('rarity');
+    var charMatch = src.match(/此刻主人公\/\d+\.(.+?)\//);
     $('#draw-lb-img').attr('src', src);
     $('#draw-lb-rarity').text(rarityLabel[rarity]).attr('class', 'draw-lb-rarity-' + rarity);
+    $('#draw-lb-char').text(charMatch ? charMatch[1] : '');
     $lb.addClass('active');
+  });
+
+  // 点击大卡牌显示 slogan
+  $(document).on('click', '#draw-card-slot .draw-card-revealed', function() {
+    var $overlay = $(this).siblings('.draw-slogan-overlay');
+    if ($overlay.hasClass('visible')) {
+      $overlay.removeClass('visible');
+    } else if (slogans[currentCharName]) {
+      $overlay.find('.draw-slogan-text').text(slogans[currentCharName].replace(/，/g, '\n').replace(/。/g, ''));
+      $overlay.addClass('visible');
+    }
+  });
+  // 点击 slogan 遮罩收起
+  $(document).on('click', '#draw-card-slot .draw-slogan-overlay', function() {
+    $(this).removeClass('visible');
   });
 
   $(document).on('click', '#draw-btn', function() {
     var $btn = $(this);
     $btn.prop('disabled', true);
+
+    // 0. 清空上一张卡和信息
+    $('#draw-card-slot').empty().css('border-color', '').css('box-shadow', '');
+    $('#draw-rarity-badge').removeClass('visible draw-rarity-R draw-rarity-SR draw-rarity-SSR').text('');
+    $('#draw-char-name').removeClass('visible').text('');
 
     // 1. shake deck
     var $stack = $('#draw-deck-stack');
@@ -752,12 +842,17 @@ wow.init();
         var $slot = $('#draw-card-slot');
         $slot.empty().css('border-color', '').css('box-shadow', '');
         $('<img class="draw-card-revealed">').attr('src', card.img).appendTo($slot);
+        $('<div class="draw-slogan-overlay"><span class="draw-slogan-text"></span></div>').appendTo($slot);
 
-        // 4. rarity badge
+        // 4. rarity badge + char name
         var $badge = $('#draw-rarity-badge');
         $badge.removeClass('visible draw-rarity-R draw-rarity-SR draw-rarity-SSR');
         $badge.text(rarityLabel[card.rarity]).addClass('draw-rarity-' + card.rarity);
-        setTimeout(function() { $badge.addClass('visible'); }, 50);
+        var charMatch = card.img.match(/此刻主人公\/\d+\.(.+?)\//);
+        currentCharName = charMatch ? charMatch[1] : '';
+        var $charName = $('#draw-char-name');
+        $charName.text(currentCharName).removeClass('visible');
+        setTimeout(function() { $badge.addClass('visible'); $charName.addClass('visible'); }, 50);
 
         // 5. border color by rarity
         var colors = { R:'#3a7bd5', SR:'#8840d0', SSR:'#c8960a' };
@@ -778,9 +873,13 @@ wow.init();
           $('<span class="draw-thumb-count">').appendTo($wrap);
           $('<span class="draw-thumb-rarity draw-thumb-rarity-' + card.rarity + '">').text(rarityLabel[card.rarity]).appendTo($wrap);
           $('#draw-collection').append($wrap);
-          // 按稀有度排序：SSR > SR > R
+          // 排序：① 稀有度 SSR > SR > R，② 同稀有度按主人公编号
           $('#draw-collection').children('.draw-thumb-wrap').sort(function(a, b) {
-            return rarityOrder[$(a).data('rarity')] - rarityOrder[$(b).data('rarity')];
+            var rarityDiff = rarityOrder[$(a).data('rarity')] - rarityOrder[$(b).data('rarity')];
+            if (rarityDiff !== 0) return rarityDiff;
+            var numA = parseInt(($(a).find('img').attr('src').match(/\/(\d+)\./) || [0,0])[1]);
+            var numB = parseInt(($(b).find('img').attr('src').match(/\/(\d+)\./) || [0,0])[1]);
+            return numA - numB;
           }).appendTo('#draw-collection');
           setTimeout(function() { $wrap.addClass('show'); }, 50);
         }
@@ -986,13 +1085,19 @@ wow.init();
 
 // 弹窗打开时禁止背景页面滚动（移动端）
 $(document).on('show.bs.modal', '.modal', function() {
-  $(document).on('touchmove.modallock', function(e) {
-    if (!$(e.target).closest('.modal-dialog').length) {
-      e.preventDefault();
-    }
-  });
+  var scrollY = window.scrollY || window.pageYOffset;
+  document.body.dataset.scrollY = scrollY;
+  document.body.style.position = 'fixed';
+  document.body.style.top = '-' + scrollY + 'px';
+  document.body.style.width = '100%';
+  document.body.style.overflowY = 'scroll';
 }).on('hidden.bs.modal', '.modal', function() {
-  $(document).off('touchmove.modallock');
+  var scrollY = parseInt(document.body.dataset.scrollY || '0');
+  document.body.style.position = '';
+  document.body.style.top = '';
+  document.body.style.width = '';
+  document.body.style.overflowY = '';
+  window.scrollTo(0, scrollY);
 });
 
 $('.carousel').swipe( {
