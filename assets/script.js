@@ -359,6 +359,36 @@ jQuery(document).ready(function($) {
     }
   });
 
+  // 专辑歌名拼贴背景
+  // frac = 在列表总高度中的相对位置(0~1)，打开时动态换算px，自动适配任何高度
+  // dLeft/dWidth = 电脑端，mLeft/mWidth = 移动端
+  var collageConfig = [
+    { src: 'images/songs/10.webp', frac: 0.00, rotate:  -9, dLeft: 248, dWidth: 188, mLeft: 148, mWidth: 108 },
+    { src: 'images/songs/05.webp', frac: 0.10, rotate:  11, dLeft: 138, dWidth: 195, mLeft: 72,  mWidth: 112 },
+    { src: 'images/songs/11.webp', frac: 0.20, rotate:  -3, dLeft: 305, dWidth: 163, mLeft: 178, mWidth:  94 },
+    { src: 'images/songs/03.webp', frac: 0.24, rotate:   7, dLeft: 125, dWidth: 234, mLeft: 62,  mWidth: 135 },
+    { src: 'images/songs/04.webp', frac: 0.42, rotate:   5, dLeft: 295, dWidth: 143, mLeft: 170, mWidth:  82 },
+    { src: 'images/songs/02.webp', frac: 0.52, rotate:  -7, dLeft: 180, dWidth: 175, mLeft: 100, mWidth: 100 },
+    { src: 'images/songs/09.webp', frac: 0.65, rotate:  12, dLeft: 318, dWidth: 143, mLeft: 183, mWidth:  82 },
+    { src: 'images/songs/12.webp', frac: 0.68, rotate: -11, dLeft: 185, dWidth: 182, mLeft: 105, mWidth: 105 },
+    { src: 'images/songs/07.webp', frac: 0.82, rotate:   6, dLeft: 300, dWidth: 163, mLeft: 172, mWidth:  94 },
+    { src: 'images/songs/08.webp', frac: 0.82, rotate:  -8, dLeft: 192, dWidth: 156, mLeft: 108, mWidth:  90 }
+  ];
+  $('#album-modal').on('shown.bs.modal', function() {
+    var h = $('#album-track-list').height();
+    var modalW = $('#album-modal .modal-content').width();
+    var mob = modalW < 460;
+    $('#album-collage').css('height', h).empty();
+    $.each(collageConfig, function(i, c) {
+      var top   = Math.round(c.frac * h);
+      var left  = mob ? c.mLeft  : c.dLeft;
+      var width = mob ? c.mWidth : c.dWidth;
+      $('#album-collage').append(
+        '<img src="' + c.src + '" style="top:' + top + 'px;left:' + left + 'px;width:' + width + 'px;transform:rotate(' + c.rotate + 'deg);">'
+      );
+    });
+  });
+
   // 专辑内点击播放 → 底部播放器（保持弹窗不关闭）
   $(document).on('click', '.btn-play-track', function() {
     var idx = parseInt($(this).data('audio-index'));

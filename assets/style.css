@@ -401,6 +401,11 @@ body { padding-bottom: 56px; }
 .album-track-actions .btn-dance-mv { display:inline-flex;align-items:center;padding:0.25em 0.8em;background:rgba(33,171,202,0.15);color:#21abca;font-size:0.85em;border-radius:20px;transition:background 0.2s;outline:none; }
 .album-track-actions .btn-dance-mv:hover { background:rgba(33,171,202,0.3);color:#21abca; }
 /*album modal*/
+#album-modal .modal-body { position: relative; }
+#album-collage { position: absolute; top: 0; left: 0; width: 100%; overflow: hidden; pointer-events: none; z-index: 2; }
+#album-collage img { position: absolute; mix-blend-mode: multiply; opacity: 0.55; }
+#album-track-list { position: relative; z-index: 1; }
+.album-track-item { background: rgba(255,255,255,0.78); }
 
 /*video modal*/
 .video-container{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;}
