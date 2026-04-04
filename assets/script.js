@@ -800,6 +800,190 @@ wow.init();
   });
 })();
 
+// ── 页脚 Logo 拖拽排序彩蛋 ──
+(function() {
+  var $logos, dragSrc;
+  var touchDragging = false, touchTimer = null, $ghost = null, $touchSrc = null;
+
+  var CORRECT_ORDER = ['7','5','1','4','6','2','3'];
+
+  function checkOrder() {
+    var order = [];
+    $logos.find('img').each(function() {
+      var m = ($(this).attr('src') || '').match(/\/(\d+)\.webp$/);
+      if (m) order.push(m[1]);
+    });
+    return order.join('') === CORRECT_ORDER.join('');
+  }
+
+  function launchFireworks() {
+    var canvas = document.createElement('canvas');
+    canvas.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:99999;';
+    document.body.appendChild(canvas);
+    var ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    var particles = [];
+    var hues = [0, 30, 55, 120, 180, 210, 270, 320];
+    var launchCount = 0, maxLaunches = 10;
+
+    function Particle(x, y, hue, isRocket) {
+      this.x = x; this.y = y; this.hue = hue; this.isRocket = isRocket;
+      this.exploded = false; this.trail = [];
+      if (isRocket) {
+        this.vx = (Math.random() - 0.5) * 2;
+        this.vy = -(Math.random() * 9 + 7);
+        this.gravity = 0.12;
+        this.decay = 0.008;
+        this.size = 3;
+      } else {
+        var a = Math.random() * Math.PI * 2, sp = Math.random() * 5 + 1;
+        this.vx = Math.cos(a) * sp; this.vy = Math.sin(a) * sp;
+        this.gravity = 0.14;
+        this.decay = Math.random() * 0.018 + 0.008;
+        this.size = Math.random() * 2.5 + 0.5;
+      }
+      this.alpha = 1;
+    }
+    Particle.prototype.update = function() {
+      this.trail.push({x:this.x, y:this.y});
+      if (this.trail.length > 6) this.trail.shift();
+      this.vy += this.gravity; this.x += this.vx; this.y += this.vy;
+      this.alpha -= this.decay;
+      if (this.isRocket && this.vy >= 0 && !this.exploded) {
+        this.exploded = true;
+        var n = 80 + Math.floor(Math.random() * 50);
+        for (var i = 0; i < n; i++)
+          particles.push(new Particle(this.x, this.y, this.hue + (Math.random()-0.5)*40, false));
+        this.alpha = 0;
+      }
+    };
+    Particle.prototype.draw = function() {
+      ctx.save();
+      var color = 'hsl('+this.hue+',100%,65%)';
+      for (var i = 0; i < this.trail.length; i++) {
+        ctx.globalAlpha = Math.max(0, this.alpha * (i/this.trail.length) * 0.4);
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        ctx.arc(this.trail[i].x, this.trail[i].y, this.size*0.5, 0, Math.PI*2);
+        ctx.fill();
+      }
+      ctx.globalAlpha = Math.max(0, this.alpha);
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
+      ctx.fill();
+      ctx.restore();
+    };
+
+    var launchInterval = setInterval(function() {
+      var x = canvas.width * 0.1 + Math.random() * canvas.width * 0.8;
+      particles.push(new Particle(x, canvas.height, hues[Math.floor(Math.random()*hues.length)], true));
+      if (++launchCount >= maxLaunches) clearInterval(launchInterval);
+    }, 350);
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles = particles.filter(function(p){ return p.alpha > 0; });
+      particles.forEach(function(p){ p.update(); p.draw(); });
+      if (particles.length > 0 || launchCount < maxLaunches) {
+        requestAnimationFrame(animate);
+      } else {
+        canvas.style.transition = 'opacity 1.2s';
+        canvas.style.opacity = '0';
+        setTimeout(function(){ canvas.remove(); }, 1200);
+      }
+    }
+    animate();
+  }
+
+  function insertLogo($src, $tgt) {
+    if ($src.index() < $tgt.index()) $src.insertAfter($tgt);
+    else $src.insertBefore($tgt);
+    if (checkOrder()) launchFireworks();
+  }
+
+  function initLogoSort() {
+    $logos = $('.footer-logos');
+    $logos.find('img').attr('draggable', 'true');
+
+    // 桌面拖拽
+    $logos.on('dragstart', 'img', function(e) {
+      dragSrc = this;
+      e.originalEvent.dataTransfer.effectAllowed = 'move';
+      $(this).addClass('logo-dragging');
+    });
+    $logos.on('dragend', 'img', function() {
+      $logos.find('img').removeClass('logo-dragging logo-drag-over');
+    });
+    $logos.on('dragover', 'img', function(e) {
+      e.preventDefault();
+      if (this !== dragSrc) {
+        $logos.find('img').removeClass('logo-drag-over');
+        $(this).addClass('logo-drag-over');
+      }
+    });
+    $logos.on('drop', 'img', function(e) {
+      e.preventDefault();
+      if (this !== dragSrc) insertLogo($(dragSrc), $(this));
+      $logos.find('img').removeClass('logo-dragging logo-drag-over');
+    });
+
+    // 移动端长按拖拽
+    $logos.on('touchstart', 'img', function(e) {
+      var self = this;
+      var t0 = e.originalEvent.touches[0];
+      var sx = t0.clientX, sy = t0.clientY;
+      touchTimer = setTimeout(function() {
+        touchDragging = true;
+        $touchSrc = $(self);
+        $touchSrc.addClass('logo-dragging');
+        if (navigator.vibrate) navigator.vibrate(40);
+        $ghost = $('<img>').attr('src', self.src).addClass('logo-ghost').css({
+          width: $touchSrc.outerWidth(), height: $touchSrc.outerHeight(),
+          left: sx - $touchSrc.outerWidth() / 2, top: sy - $touchSrc.outerHeight() / 2
+        }).appendTo('body');
+      }, 500);
+    });
+
+    $(document).on('touchmove.logosort', function(e) {
+      if (!touchDragging) return;
+      e.preventDefault();
+      var touch = e.originalEvent.touches[0];
+      $ghost.css({ left: touch.clientX - $ghost.outerWidth() / 2, top: touch.clientY - $ghost.outerHeight() / 2 });
+      $ghost.hide();
+      var el = document.elementFromPoint(touch.clientX, touch.clientY);
+      $ghost.show();
+      $logos.find('img').removeClass('logo-drag-over');
+      if (el && el.tagName === 'IMG' && $(el).closest('.footer-logos').length) $(el).addClass('logo-drag-over');
+    });
+
+    $(document).on('touchend.logosort touchcancel.logosort', function(e) {
+      clearTimeout(touchTimer);
+      if (!touchDragging) return;
+      touchDragging = false;
+      var touch = e.originalEvent.changedTouches[0];
+      $ghost.hide();
+      var el = document.elementFromPoint(touch.clientX, touch.clientY);
+      $ghost.remove(); $ghost = null;
+      if (el && el.tagName === 'IMG' && $(el).closest('.footer-logos').length && el !== $touchSrc[0])
+        insertLogo($touchSrc, $(el));
+      $logos.find('img').removeClass('logo-dragging logo-drag-over');
+      $touchSrc = null;
+    });
+
+    $logos.on('touchmove', 'img', function(e) {
+      if (touchDragging) return;
+      var t = e.originalEvent.touches[0];
+      // 若移动超过 8px 则取消长按计时
+      clearTimeout(touchTimer);
+    });
+  }
+
+  $(document).ready(function() { initLogoSort(); });
+})();
+
 // 弹窗打开时禁止背景页面滚动（移动端）
 $(document).on('show.bs.modal', '.modal', function() {
   $(document).on('touchmove.modallock', function(e) {
