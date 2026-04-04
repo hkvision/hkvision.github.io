@@ -386,9 +386,9 @@ body { padding-bottom: 56px; }
 .album-track-link:visited { color: #111; }
 .album-track-link:hover { color: #21abca; }
 .album-track-actions { display: flex; align-items: center; gap: 0.6em; flex-shrink: 0; }
-.album-track-actions a, .album-track-actions button { background: none; border: none; padding: 0.3em 0.5em; font-size: 0.85em; border-radius: 3px; cursor: pointer; text-decoration: none; line-height: 1; }
-.btn-play-track { color: #21abca; border: 1px solid #21abca !important; }
-.btn-play-track:hover { background: #21abca; color: #fff; }
+.album-track-actions a, .album-track-actions button { border: none; background: none; padding: 0.2em 0.4em; font-size: 0.85em; cursor: pointer; text-decoration: none; line-height: 1; outline: none; }
+.album-track-actions .btn-play-track { display:inline-flex;align-items:center;padding:0.25em 0.8em;background:rgba(33,171,202,0.15);color:#21abca;font-size:0.85em;border-radius:20px;transition:background 0.2s;outline:none; }
+.album-track-actions .btn-play-track:hover { background:rgba(33,171,202,0.3);color:#21abca; }
 .album-track-locked { background: linear-gradient(90deg, rgba(255,200,50,0.08), rgba(255,160,0,0.13), rgba(255,200,50,0.08)); border-bottom: 1px solid rgba(255,180,0,0.2) !important; }
 .album-track-mystery { font-size: 1em; font-weight: bold; color: #c8920a; letter-spacing: 0.15em; }
 .album-track-locked small { color: #c8920a; opacity: 0.75; font-size: 0.78em; letter-spacing: 0.05em; }
@@ -396,10 +396,10 @@ body { padding-bottom: 56px; }
 .btn-locked { border: 1px solid #c8920a !important; color: #c8920a; cursor: not-allowed !important; opacity: 0.7; }
 .btn-stream { color: #888; border: 1px solid #ccc !important; }
 .btn-stream:hover { color: #fff; background: #888; border-color: #888 !important; }
-.btn-mv { color: #fb7299; border: 1px solid #fb7299 !important; }
-.btn-mv:hover { background: #fb7299; color: #fff; }
-.btn-dance-mv { color: #21abca; border: 1px solid #21abca !important; }
-.btn-dance-mv:hover { background: #21abca; color: #fff; }
+.album-track-actions .btn-mv { display:inline-flex;align-items:center;padding:0.25em 0.8em;background:rgba(251,114,153,0.15);color:#fb7299;font-size:0.85em;border-radius:20px;transition:background 0.2s;outline:none; }
+.album-track-actions .btn-mv:hover { background:rgba(251,114,153,0.3);color:#fb7299; }
+.album-track-actions .btn-dance-mv { display:inline-flex;align-items:center;padding:0.25em 0.8em;background:rgba(33,171,202,0.15);color:#21abca;font-size:0.85em;border-radius:20px;transition:background 0.2s;outline:none; }
+.album-track-actions .btn-dance-mv:hover { background:rgba(33,171,202,0.3);color:#21abca; }
 /*album modal*/
 
 /*video modal*/
@@ -553,6 +553,18 @@ body { padding-bottom: 56px; }
 }
 .tl-ending-top { margin-top: 0; margin-bottom: 2em; padding-top: 0; padding-bottom: 1.2em; border-top: none; border-bottom: 1px dashed #ddd; }
 .tl-desc { font-size: 0.85em; color: #666; line-height: 1.6; }
+.tl-play-btn{display:inline-flex;align-items:center;padding:0.25em 0.8em;border:none;border-radius:20px;background:rgba(33,171,202,0.15);color:#21abca;font-size:0.85em;cursor:pointer;transition:background 0.2s;vertical-align:middle;margin-left:0.4em;}
+.tl-play-btn:hover{background:rgba(33,171,202,0.3);}
+.tl-play-btn .fa{font-size:0.85em;}
+.tl-link-btn{display:inline-flex;align-items:center;padding:0.25em 0.8em;border-radius:20px;background:rgba(230,0,18,0.12);color:#e60012;font-size:0.85em;cursor:pointer;transition:background 0.2s;vertical-align:middle;margin-left:0.4em;text-decoration:none;}
+.tl-link-btn:hover,.tl-link-btn:focus,.tl-link-btn:active{background:rgba(230,0,18,0.25);color:#e60012;text-decoration:none;outline:none;}
+.tl-link-btn .fa{font-size:0.85em;}
+.tl-preview{display:block;margin-top:0.6em;height:72px;border-radius:6px;cursor:pointer;opacity:0.85;transition:opacity 0.2s,transform 0.2s;object-fit:cover;}
+.tl-preview:hover{opacity:1;transform:scale(1.03);}
+.tl-preview-logo{height:36px;object-fit:contain;background:rgba(15,10,50,0.88);padding:6px 14px;border-radius:8px;cursor:default;}
+#tl-lightbox{position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:9999;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.25s;}
+#tl-lightbox.active{opacity:1;pointer-events:auto;}
+#tl-lb-img{max-width:90vw;max-height:85vh;object-fit:contain;border-radius:8px;box-shadow:0 8px 40px rgba(0,0,0,0.7);}
 
 /* ── 抽卡 modal ── */
 .draw-mc{background:#0d0d1a;border:none;border-radius:16px;color:#fff;padding:0 0 1.5em;overflow:hidden;}

@@ -318,13 +318,13 @@ jQuery(document).ready(function($) {
     { title: '待解锁 敬请期待',    audioIndex: 0,  qqUrl: null,                                                              wyyUrl: null, bvid: null,            credit: '',                          cover: null },
     { title: '和自己对话',         audioIndex: 1,  qqUrl: 'https://y.qq.com/n/ryqq_v2/songDetail/000nJmpI403SOX',           wyyUrl: null, bvid: 'BV1La4y1k73i',  credit: 'Cover 林墨',                cover: 'images/covers/02.webp' },
     { title: '样（YOUNG）',        audioIndex: 2,  qqUrl: 'https://y.qq.com/n/ryqq_v2/songDetail/0039tIo02YCRDk',           wyyUrl: null, bvid: 'BV1DT4y1U7qk',  credit: 'Cover TFBOYS',              cover: 'images/covers/03.webp' },
-    { title: 'HKVISION LAND',      audioIndex: 3,  qqUrl: 'https://y.qq.com/n/ryqq_v2/songDetail/003e7tMZ37TOlz',           wyyUrl: null, bvid: 'BV1xGUPBrEE2',  credit: '作曲：黄凯/墨绝音',         cover: 'images/covers/04.webp' },
+    { title: 'HKVISION LAND',      audioIndex: 3,  qqUrl: 'https://y.qq.com/n/ryqq_v2/songDetail/003e7tMZ37TOlz',           wyyUrl: null, bvid: 'BV1xGUPBrEE2',  credit: '作曲 · 黄凯/墨绝音',         cover: 'images/covers/04.webp' },
     { title: 'Fall',               audioIndex: 4,  qqUrl: 'https://y.qq.com/n/ryqq_v2/songDetail/003NneXk1XQDxE',           wyyUrl: null, bvid: 'BV1hJ4m187kE',  credit: 'Cover 易烊千玺',            cover: 'images/covers/05.webp' },
     { title: '待解锁 敬请期待',    audioIndex: 5,  qqUrl: null,                                                              wyyUrl: null, bvid: null,            credit: '',                          cover: null },
-    { title: '此刻回望',           audioIndex: 6,  qqUrl: 'https://y.qq.com/n/ryqq_v2/songDetail/0021NVdb2kTTug',           wyyUrl: null, bvid: null,            credit: '作曲：黄凯/墨绝音',         cover: 'images/covers/07.webp' },
+    { title: '此刻回望',           audioIndex: 6,  qqUrl: 'https://y.qq.com/n/ryqq_v2/songDetail/0021NVdb2kTTug',           wyyUrl: null, bvid: null,            credit: '作曲 · 黄凯/墨绝音',         cover: 'images/covers/07.webp' },
     { title: '嘿，你还好吗',       audioIndex: 7,  qqUrl: null,                                                              wyyUrl: 'https://music.163.com/#/song?id=2129846924', bvid: 'BV1Y2421c7zN',  credit: 'Cover 钟汉良',  cover: 'images/covers/08.webp' },
     { title: '记录你所给我的一切', audioIndex: 8,  qqUrl: 'https://y.qq.com/n/ryqq_v2/songDetail/000CtRZg3cXzp4',           wyyUrl: null, bvid: 'BV1kTU9YmEPU',  credit: 'Cover 王俊凯',              cover: 'images/covers/09.webp' },
-    { title: '此刻着陆',           audioIndex: 9,  qqUrl: 'https://y.qq.com/n/ryqq_v2/songDetail/003Xlxko0aOxLV',           wyyUrl: null, bvid: 'BV1dBGFz6EHa',  credit: '作词：黄凯&emsp;作曲：Sugar', cover: 'images/covers/10.webp' },
+    { title: '此刻着陆',           audioIndex: 9,  qqUrl: 'https://y.qq.com/n/ryqq_v2/songDetail/003Xlxko0aOxLV',           wyyUrl: null, bvid: 'BV1dBGFz6EHa',  credit: '作词 · 黄凯&emsp;作曲 · Sugar', cover: 'images/covers/10.webp' },
     { title: '同乘',               audioIndex: 10, qqUrl: 'https://y.qq.com/',                                               wyyUrl: null, bvid: 'BV1VnS2YSECh',  credit: 'Cover 易烊千玺',            cover: 'images/covers/11.webp' },
     { title: '给未来的自己',       audioIndex: 11, qqUrl: 'https://y.qq.com/n/ryqq_v2/songDetail/002Lq3Td3yzhYe',           wyyUrl: null, bvid: 'BV1jW421P7uY',  credit: 'Cover 梁静茹',              cover: 'images/covers/12.webp' }
   ];
@@ -346,9 +346,9 @@ jQuery(document).ready(function($) {
         ? '<a class="album-track-link" href="' + t.qqUrl + '" target="_blank">' + t.title + '</a>'
         : (t.wyyUrl ? '<a class="album-track-link" href="' + t.wyyUrl + '" target="_blank">' + t.title + '</a>' : t.title);
       var titleHtml = titleText + (t.credit ? '<br><small style="color:#aaa;font-size:0.8em">' + t.credit + '</small>' : '');
-      var actions = '<button class="btn-play-track" data-audio-index="' + t.audioIndex + '">&#9654;</button>';
+      var actions = '<button class="btn-play-track" data-audio-index="' + t.audioIndex + '"><i class="fa fa-play"></i></button>';
+      if (t.bvid) actions += '<button class="btn-mv" data-bvid="' + t.bvid + '" data-title="' + t.title + '"><i class="fa fa-film"></i></button>';
       if (t.cover) actions += '<button class="btn-cover" data-cover="' + t.cover + '" data-title="' + t.title + '">🖼️</button>';
-      if (t.bvid) actions += '<button class="btn-mv" data-bvid="' + t.bvid + '" data-title="' + t.title + '"><i class="fa fa-film"></i> MV</button>';
       $('#album-track-list').append(
         '<li class="album-track-item">' +
         '<span class="album-track-num">' + num + '</span>' +
@@ -470,10 +470,10 @@ jQuery(document).ready(function($) {
     var btns = '';
     if (t.videos) {
       $.each(t.videos, function(j, v) {
-        btns += '<button class="btn-dance-mv" data-bvid="' + v.bvid + '" data-title="' + t.title + ' ' + v.label + '">&#9654; ' + v.label + '</button>';
+        btns += '<button class="btn-dance-mv" data-bvid="' + v.bvid + '" data-title="' + t.title + ' ' + v.label + '"><i class="fa fa-play"></i> ' + v.label + '</button>';
       });
     } else {
-      btns = '<button class="btn-dance-mv" data-bvid="' + t.bvid + '" data-title="' + t.title + '">&#9654;</button>';
+      btns = '<button class="btn-dance-mv" data-bvid="' + t.bvid + '" data-title="' + t.title + '"><i class="fa fa-play"></i></button>';
     }
     $('#dance-track-list').append(
       '<li class="album-track-item">' +
@@ -537,7 +537,7 @@ jQuery(document).ready(function($) {
       { date: '12.22', tag: 'video',  tagLabel: 'MV',   title: '发布《和自己对话》MV' },
     ]},
     { year: '2024', events: [
-      { date: '01.01', tag: 'event',  tagLabel: '封面',   title: '发布《和自己对话》"黑白双生"单曲封面' },
+      { date: '01.01', tag: 'event',  tagLabel: '封面',   title: '发布《和自己对话》"黑白双生"单曲封面', img: '和自己对话-黑白双生封面.webp' },
       { date: '01.01', tag: 'event',  tagLabel: '封面',   title: '发布《嘿，你还好吗》单曲封面' },
       { date: '02.09', tag: 'video',  tagLabel: 'MV',     title: '发布《嘿，你还好吗》MV' },
       { date: '02.28', tag: 'origin', tagLabel: '音乐', title: '启动《此刻着陆 HKVISION LAND》概念专辑' },
@@ -546,9 +546,9 @@ jQuery(document).ready(function($) {
       { date: '03.18', tag: 'video',  tagLabel: 'MV',     title: '发布《Fall》MV' },
       { date: '03.19', tag: 'event',  tagLabel: '封面',   title: '发布《样（YOUNG）》单曲封面' },
       { date: '05.17', tag: 'event',  tagLabel: '封面',   title: '发布《给未来的自己》单曲封面' },
-      { date: '05.17', tag: 'event',  tagLabel: '🌟',   title: '发布『此刻着陆』HK面对自我logo' },
+      { date: '05.17', tag: 'event',  tagLabel: '🌟',   title: '发布『此刻着陆』HK面对自我logo', img: 'HK面对自我logo.png' },
       { date: '07.01', tag: 'event',  tagLabel: '封面',   title: '发布『此刻着陆』"望向银河"手绘版封面' },
-      { date: '07.07', tag: 'event',  tagLabel: '🌟',   title: '发布『此刻着陆』HK飞行logo' },
+      { date: '07.07', tag: 'event',  tagLabel: '🌟',   title: '发布『此刻着陆』HK飞行logo', img: 'HK飞行logo.webp' },
       { date: '10.07', tag: 'event',  tagLabel: '封面',   title: '发布《Fall》单曲封面' },
       { date: '10.29', tag: 'event',  tagLabel: '封面',   title: '发布《同乘》单曲封面' },
       { date: '10.29', tag: 'video',  tagLabel: 'MV',     title: '发布《同乘》MV' },
@@ -559,33 +559,34 @@ jQuery(document).ready(function($) {
     { year: '2025', events: [
       { date: '01.01', tag: 'event',  tagLabel: '封面',   title: '发布『此刻着陆』"灿烂如歌"封面' },
       { date: '01.28', tag: 'event',  tagLabel: '写真',   title: '发布『此刻着陆』航线—古城主人公"繁花墨客"写真' },
-      { date: '02.10', tag: 'video',  tagLabel: '预告',   title: '发布《此刻着陆》直拍预告' },
+      { date: '02.10', tag: 'video',  tagLabel: '预告',   title: '发布《此刻着陆》直拍预告', bvid: 'BV157NaeJE2z', bvidPage: 1 },
       { date: '02.15', tag: 'event',  tagLabel: '封面',   title: '发布『此刻着陆』"灿烂如歌"手绘版封面' },
-      { date: '02.17', tag: 'video',  tagLabel: '预告',   title: '发布《此刻着陆》星河闪耀预告' },
+      { date: '02.17', tag: 'video',  tagLabel: '预告',   title: '发布《此刻着陆》星河闪耀预告', bvid: 'BV157NaeJE2z', bvidPage: 2 },
       { date: '02.19', tag: 'event',  tagLabel: '封面',   title: '发布『此刻着陆』"漂浮泡沫"封面' },
       { date: '02.20', tag: 'event',  tagLabel: '封面',   title: '发布『此刻着陆』"漂浮泡沫"手绘版封面' },
       { date: '02.22', tag: 'music',  tagLabel: '音乐',   title: '发布《此刻着陆》' },
       { date: '02.22', tag: 'event',  tagLabel: '封面',   title: '发布《此刻着陆》"昼夜双生"手绘封面' },
-      { date: '02.22', tag: 'event',  tagLabel: '封面',   title: '发布《此刻着陆》"振翅返航"歌词海报' },
+      { date: '02.22', tag: 'event',  tagLabel: '封面',   title: '发布《此刻着陆》"振翅返航"歌词海报', img: '此刻着陆振翅返航歌词海报.webp' },
       { date: '02.28', tag: 'event',  tagLabel: '写真',   title: '发布『此刻着陆』航线—摇曳主人公"流苏绅士"写真' },
-      { date: '03.02', tag: 'event',  tagLabel: '🌟',     title: '发布《此刻着陆》特别祝福篇《此刻庆祝》' },
+      { date: '03.02', tag: 'event',  tagLabel: '🌟',     title: '发布《此刻着陆》特别祝福篇《此刻庆祝》', bvid: 'BV1NF9rYYEK2' },
       { date: '03.18', tag: 'event',  tagLabel: '写真',   title: '发布『此刻着陆』航线—宫阙主人公"盛世公子"写真' },
-      { date: '03.19', tag: 'event',  tagLabel: '封面',   title: '发布《记录你所给我的一切》"三生三世"单曲封面' },
+      { date: '03.19', tag: 'event',  tagLabel: '封面',   title: '发布《记录你所给我的一切》"三生三世"单曲封面', img: '记录你所给我的一切-三生三世封面.webp' },
       { date: '05.06', tag: 'event',  tagLabel: '写真',   title: '发布『此刻着陆』航线—光明主人公"羽翼少年"写真' },
       { date: '06.28', tag: 'event',  tagLabel: '写真',   title: '发布『此刻着陆』航线—野兽主人公"貂皮射手"写真' },
-      { date: '07.01', tag: 'video',  tagLabel: '预告',   title: '发布《此刻着陆》MV Teaser' },
-      { date: '07.05', tag: 'event',  tagLabel: '封面',   title: '发布《此刻着陆》MV沙画封面' },
+      { date: '07.01', tag: 'video',  tagLabel: '预告',   title: '发布《此刻着陆》MV Teaser', bvid: 'BV14GgQzaEpz' },
+      { date: '07.05', tag: 'event',  tagLabel: '封面',   title: '发布《此刻着陆》MV沙画封面', img: '此刻着陆MV沙画封面.webp' },
       { date: '07.05', tag: 'video',  tagLabel: 'MV',     title: '《此刻着陆》MV点映礼' },
       { date: '07.06', tag: 'video',  tagLabel: 'MV',     title: '发布《此刻着陆》MV' },
-      { date: '08.03', tag: 'dance',  tagLabel: '舞蹈',   title: '发布《此刻着陆》Dance Break' },
-      { date: '08.08', tag: 'dance',  tagLabel: '舞蹈',   title: '发布《此刻着陆》手势舞' },
-      { date: '08.09', tag: 'music',  tagLabel: '音乐',   title: '发布《此刻着陆》打歌舞台' },
-      { date: '08.13', tag: 'dance',  tagLabel: '舞蹈',   title: '发布《此刻着陆》Dance Break 及手势舞分解教程' },
+      { date: '08.03', tag: 'dance',  tagLabel: '舞蹈',   title: '发布《此刻着陆》Dance Break', bvid: 'BV1rjh3zFEdR' },
+      { date: '08.08', tag: 'dance',  tagLabel: '舞蹈',   title: '发布《此刻着陆》手势舞', bvid: 'BV1EYbAzbEwF' },
+      { date: '08.09', tag: 'music',  tagLabel: '音乐',   title: '发布《此刻着陆》打歌舞台', bvid: 'BV1HWbAzvEq6' },
+      { date: '08.13', tag: 'dance',  tagLabel: '舞蹈',   title: '发布《此刻着陆》Dance Break 分解教程', bvid: 'BV1W3bhz7Ez3' },
+      { date: '08.13', tag: 'dance',  tagLabel: '舞蹈',   title: '发布《此刻着陆》手势舞分解教程', bvid: 'BV1XLbazeE9f' },
       { date: '08.28', tag: 'music',  tagLabel: '音乐',   title: '发布《此刻回望》' },
-      { date: '10.02', tag: 'music',  tagLabel: '音乐',   title: '发布《此刻着陆》架子鼓' },
+      { date: '10.02', tag: 'music',  tagLabel: '音乐',   title: '发布《此刻着陆》架子鼓', bvid: 'BV1tEHtz8ETW' },
       { date: '11.23', tag: 'video',  tagLabel: 'MV',     title: '发布《HKVISION LAND》MV' },
       { date: '11.28', tag: 'music',  tagLabel: '音乐',   title: '发布《HKVISION LAND》' },
-      { date: '12.01', tag: 'origin', tagLabel: '音乐', title: '发布《此刻着陆 HKVISION LAND》典藏Live辑《此刻闪耀》' },
+      { date: '12.01', tag: 'origin', tagLabel: '音乐', title: '发布《此刻着陆 HKVISION LAND》典藏Live辑《此刻闪耀》', url: 'https://music.163.com/#/album?id=350594404' },
     ]},
   ];
 
@@ -623,8 +624,12 @@ jQuery(document).ready(function($) {
             '<div class="tl-dot"></div>' +
             '<div class="tl-content">' +
               '<span class="tl-tag ' + (tagClass[e.tag] || '') + '">' + e.tagLabel + '</span>' +
-              '<div class="tl-title">' + e.title + '</div>' +
+              '<div class="tl-title">' + e.title +
+                (e.bvid ? ' <button class="tl-play-btn" data-bvid="' + e.bvid + '" data-page="' + (e.bvidPage||1) + '" data-title="' + e.title + '"><i class="fa fa-play"></i></button>' : '') +
+                (e.url ? ' <a class="tl-link-btn" href="' + e.url + '" target="_blank"><i class="fa fa-music"></i></a>' : '') +
+              '</div>' +
               (e.desc ? '<div class="tl-desc">' + e.desc + '</div>' : '') +
+              (e.img ? '<img class="tl-preview' + (e.img.slice(-4) === '.png' ? ' tl-preview-logo' : '') + '" src="images/大事年表/' + e.img + '" loading="lazy">' : '') +
             '</div>' +
           '</div>'
         );
@@ -641,12 +646,32 @@ jQuery(document).ready(function($) {
     $tl.append(
       '<div class="tl-ending">HKVISION LAND</div>'
     );
+
+    // 年表视频播放
+    $(document).on('click', '.tl-play-btn', function() {
+      var bvid = $(this).data('bvid');
+      var page = $(this).data('page') || 1;
+      var title = $(this).data('title').replace(/^发布/, '');
+      videoReturnTarget = null;
+      $('#video-modal-title').text(title);
+      $('#bilibili-player').data('bvid', bvid).data('page', page);
+      $('#video-modal').modal('show');
+    });
+
+    // 年表图片 lightbox
+    var $tlLb = $('<div id="tl-lightbox"><img id="tl-lb-img"></div>').appendTo('body');
+    $tlLb.on('click', function() { $tlLb.removeClass('active'); });
+    $(document).on('click', '.tl-preview:not(.tl-preview-logo)', function() {
+      $('#tl-lb-img').attr('src', $(this).attr('src'));
+      $tlLb.addClass('active');
+    });
   })();
 
   // 视频 modal：打开时加载 iframe，关闭时返回来源弹窗
   $('#video-modal').on('show.bs.modal', function() {
     var bvid = $('#bilibili-player').data('bvid');
-    if (bvid) $('#bilibili-player').attr('src', 'https://player.bilibili.com/player.html?bvid=' + bvid + '&page=1');
+    var page = $('#bilibili-player').data('page') || 1;
+    if (bvid) $('#bilibili-player').attr('src', 'https://player.bilibili.com/player.html?bvid=' + bvid + '&page=' + page);
   });
   $('#video-modal').on('hidden.bs.modal', function() {
     $('#bilibili-player').attr('src', '');
